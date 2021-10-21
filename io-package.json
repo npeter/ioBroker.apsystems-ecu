@@ -1,0 +1,98 @@
+{
+    "common": {
+        "name": "apsystems-ecu",
+        "version": "0.0.1",
+        "news": {
+            "0.0.1": {
+                "en": "initial release",
+                "de": "Erstveröffentlichung",
+                "ru": "Начальная версия",
+                "pt": "lançamento inicial",
+                "nl": "Eerste uitgave",
+                "fr": "Première version",
+                "it": "Versione iniziale",
+                "es": "Versión inicial",
+                "pl": "Pierwsze wydanie",
+                "zh-cn": "首次出版"
+            }
+        },
+        "title": "APSystems inverter via ECU-R ",
+        "titleLang": {
+            "en": "APSystems inverter via ECU-R ",
+            "de": "APSystems Wechselrichter über ECU-R",
+            "ru": "Инвертор APSystems через ECU-R",
+            "pt": "Inversor APSystems via ECU-R",
+            "nl": "APSystems-omvormer via ECU-R",
+            "fr": "Onduleur APSystems via ECU-R",
+            "it": "Inverter APSystems tramite ECU-R",
+            "es": "Inversor APSystems vía ECU-R",
+            "pl": "Falownik APSystems przez ECU-R",
+            "zh-cn": "通过 ECU-R 的 APSystems 逆变器"
+        },
+        "desc": {
+            "en": "Collection of realtime and history data from APSystems inverters using a local connection to ECU-R communication unit",
+            "de": "Erfassung von Echtzeit- und Verlaufsdaten von APSystems-Wechselrichtern über eine lokale Verbindung zur ECU-R-Kommunikationseinheit",
+            "ru": "Сбор данных в реальном времени и истории от инверторов APSystems с использованием локального подключения к блоку связи ECU-R",
+            "pt": "Coleta de dados em tempo real e históricos dos inversores APSystems usando uma conexão local para a unidade de comunicação ECU-R",
+            "nl": "Verzameling van realtime- en historische gegevens van APSystems-omvormers via een lokale verbinding met ECU-R-communicatie-eenheid",
+            "fr": "Collecte de données en temps réel et historiques des onduleurs APSystems à l'aide d'une connexion locale à l'unité de communication ECU-R",
+            "it": "Raccolta di dati in tempo reale e storici dagli inverter APSystems utilizzando una connessione locale all'unità di comunicazione ECU-R",
+            "es": "Recopilación de datos históricos y en tiempo real de los inversores APSystems mediante una conexión local a la unidad de comunicación ECU-R",
+            "pl": "Zbieranie danych czasu rzeczywistego i danych historycznych z falowników APSystems za pomocą lokalnego połączenia z jednostką komunikacyjną ECU-R",
+            "zh-cn": "使用与 ECU-R 通信单元的本地连接从 APSystems 逆变器收集实时和历史数据"
+        },
+        "authors": [
+            "npeter <peter_n@gmx.de>"
+        ],
+        "keywords": [
+            "APSystems",
+            "inverter",
+            "solar-module"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "main.js",
+        "icon": "apsystems-ecu.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/npeter/ioBroker.apsystems-ecu/master/admin/apsystems-ecu.png",
+        "readme": "https://github.com/npeter/ioBroker.apsystems-ecu/blob/master/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "energy",
+        "compact": true,
+        "materialize": true,
+        "dependencies": [
+            {
+                "js-controller": ">=1.4.2"
+            }
+        ]
+    },
+    "native": {
+        "ecu_ip": "192.168.178.58",
+        "ecu_port": "8899"
+    },
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "ECU connected",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        }
+    ]
+}
