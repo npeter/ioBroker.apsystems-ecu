@@ -49,13 +49,6 @@ class ApsystemsEcu extends utils.Adapter {
 
         // 
         this.ecu.start(this.config.ecu_ip, this.config.ecu_port);
-        //this.setState('info.connection', true, true);            
-
-        //this.ecu.tstAlllReq();
-        //this.ecu.cyclicRequests(20);
-        //this.ecu.enableRealTimeData(10);
-        //this.ecu.enablePowerOfDay(11);
-
     }
 
     /**

@@ -4,6 +4,7 @@
 node_modules
 nbproject
 .vscode
+tstjs.js
 
 # npm package files
 iobroker.*.tgz

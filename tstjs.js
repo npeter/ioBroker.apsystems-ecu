@@ -38,4 +38,24 @@ function itst() {
 
 
   //f1f2();
-  itst();
+  //itst();
+
+/*
+  let day1 = new Date();
+  console.log(day1);
+  let day2 = new Date().toISOString();
+  console.log(day2);
+
+  let day3 = day2.substring(0,4) + day2.substring(5,7) + day2.substring(8,10);
+  console.log(day3);
+*/
+    let day = null;
+    if ( day == null) {
+        let todayISO = new Date().toISOString();
+        day = todayISO.substring(0,4) + todayISO.substring(5,7) + todayISO.substring(8,10);
+        console.log(todayISO);
+        console.log(day);   
+    }
+
+    
+  
