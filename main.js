@@ -49,6 +49,12 @@ class ApsystemsEcu extends utils.Adapter {
 
         // 
         this.ecu.start(this.config.ecu_ip, this.config.ecu_port);
+
+        // 
+        this.subscribeStates('ecu.cmd_energy_of_week'); // todo pattern
+        this.subscribeStates('ecu.cmd_energy_of_month');
+        this.subscribeStates('ecu.cmd_energy_of_year');
+        this.subscribeStates('ecu.cmd_power_of_day');
     }
 
     /**
@@ -97,6 +103,7 @@ class ApsystemsEcu extends utils.Adapter {
     onStateChange(id, state) {
         if (state) {
             // The state was changed
+            this.ecu.onStateChange(id, state);
             this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
         } else {
             // The state was deleted
