@@ -48,7 +48,7 @@ class ApsystemsEcu extends utils.Adapter {
         this.log.info('config ecu_port: ' + this.config.ecu_port);
 
         // 
-        this.ecu.start(this.config.ecu_ip, this.config.ecu_port);
+        this.ecu.begin(this.config.ecu_ip, this.config.ecu_port);
 
         // request list of energy and power values
         this.subscribeStates(this.ecu.CMD_ENERGY_OF_WEEK_ID); 
