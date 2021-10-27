@@ -50,12 +50,12 @@ class ApsystemsEcu extends utils.Adapter {
         // 
         this.ecu.start(this.config.ecu_ip, this.config.ecu_port);
 
-        // 
-        this.subscribeStates('ecu.cmd_energy_of_week'); // todo pattern
-        this.subscribeStates('ecu.cmd_energy_of_month');
-        this.subscribeStates('ecu.cmd_energy_of_year');
-        this.subscribeStates('ecu.cmd_power_of_day');        
-
+        // request list of energy and power values
+        this.subscribeStates(this.ecu.CMD_ENERGY_OF_WEEK_ID); 
+        this.subscribeStates(this.ecu.CMD_ENERGY_OF_MONTH_ID);
+        this.subscribeStates(this.ecu.CMD_ENERGY_OF_YEAR_ID);
+        this.subscribeStates(this.ecu.CMD_POWER_OF_DAY_ID);    
+        this.subscribeStates(this.ecu.POWER_OF_DAY_DATE_ID);                    
     }
 
     /**
