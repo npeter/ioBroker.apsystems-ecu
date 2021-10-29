@@ -1,45 +1,8 @@
 const SunCalc = require('suncalc2');
 const schedule = require('node-schedule');
 
-function f1() {
-    return new Promise( resolve => {
-        setTimeout( () => {
-            console.log('f1');
-            resolve('f1');
-        }, 2000);
-    });
-}
-
-function f2() {
-    return new Promise( resolve => {
-        setTimeout( () => {
-            console.log('f2');
-            resolve('f2');
-        }, 1000);
-    });
-}
 
 
-async function f1f2() {
-
-    const resultF1 = await f1();
-    const resultF2 = await f2();
-}
-
-
-function itst() {
-    setInterval( () => {
-        console.log('interval');
-        f1f2(); 
-
-    }, 5000);
-    console.log('itst');
-}
-
-
-
-  //f1f2();
-  //itst();
 
 /*
   let day1 = new Date();
@@ -68,18 +31,46 @@ function itst() {
         console.log(`sunSet: ${sunSet}`);
     }
     
-suncalc();
+//suncalc();
     
 let astroTime = SunCalc.getTimes(new Date(), 49.8648048, 9.601144);
 let sunRise = astroTime.sunrise;
 let sunSet = astroTime.sunset;
 console.log(`sunRise: ${sunRise}`);
 console.log(`sunSet: ${sunSet}`);
+console.log(typeof sunRise);
+console.log(typeof astroTime.sunrise);
+console.log(Object.keys(astroTime));
+console.log(Object.values(astroTime));
 
+let sunSetHoursStr = ('0' + astroTime.sunset.getHours()).slice(-2);
+let sunSetMinutesStr = ('0' + astroTime.sunset.getMinutes()).slice(-2);
+
+console.log(sunSetHoursStr);
+console.log(sunSetMinutesStr);
+let sunSetLiteral = {};
+sunSetLiteral['hour'] = astroTime.sunset.getHours();
+sunSetLiteral['minute'] = astroTime.sunset.getMinutes();
+
+let now = new Date();
+let nowObject = {};
+nowObject['hour'] = now.getHours();
+nowObject['minutes'] = now.getMinutes() + 1;
+
+console.log(nowObject);
+
+const job = schedule.scheduleJob(nowObject, () => {
+    console.log('hello peter');
+})
+/*
 const startSchedule = schedule.scheduleJob(sunRise, () => {
     console.log(`jobStart at {jobStart}`)
 });
 
+let _sunRise = new Date(astroTime.sunrise);
+console.log(_sunRise);
+
+/*
 const jobStart = {
     if (jobStart) {
         // jobStart.cancel();
@@ -94,10 +85,10 @@ const jobStart = {
 
 }
   
-const jobEnd = schedule.scheduleJob(sunSet, () => {
+const jobEnd = schedule.scheduleJob(_sunRise, () => {
     console.log(`jobEnd at {jobEnd}`)
 });
-
-jobStart();
-jobEnd();
- 
+console.log.toString(jobEnd);
+//jobStart();
+//jobEnd();
+ */

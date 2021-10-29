@@ -49,6 +49,7 @@ class ApsystemsEcu extends utils.Adapter {
 
         // 
         //this.ecu.start(this.config.ecu_ip, this.config.ecu_port);
+        this.ecu.init();
         this.setState(this.ecu.CMD_START_STOP, true, false);
 
         // request list of energy and power values
