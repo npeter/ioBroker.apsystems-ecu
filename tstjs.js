@@ -1,4 +1,5 @@
-
+const SunCalc = require('suncalc2');
+const schedule = require('node-schedule');
 
 function f1() {
     return new Promise( resolve => {
@@ -49,6 +50,7 @@ function itst() {
   let day3 = day2.substring(0,4) + day2.substring(5,7) + day2.substring(8,10);
   console.log(day3);
 */
+/*
     let day = null;
     if ( day == null) {
         let todayISO = new Date().toISOString();
@@ -56,6 +58,46 @@ function itst() {
         console.log(todayISO);
         console.log(day);   
     }
+*/
 
+    function suncalc() {
+        let times = SunCalc.getTimes(new Date(), 49.8648048, 9.601144);
+        let sunRise = times.sunrise;
+        let sunSet = times.sunset;
+        console.log(`sunRise: ${sunRise}`);
+        console.log(`sunSet: ${sunSet}`);
+    }
     
+suncalc();
+    
+let astroTime = SunCalc.getTimes(new Date(), 49.8648048, 9.601144);
+let sunRise = astroTime.sunrise;
+let sunSet = astroTime.sunset;
+console.log(`sunRise: ${sunRise}`);
+console.log(`sunSet: ${sunSet}`);
+
+const startSchedule = schedule.scheduleJob(sunRise, () => {
+    console.log(`jobStart at {jobStart}`)
+});
+
+const jobStart = {
+    if (jobStart) {
+        // jobStart.cancel();
+        jobStart.reschedule(sunRise, () => {
+            console.log(`jobStart at {jobStart}`)
+        })
+    } else {
+        jobStart.scheduleJob(sunRise, () => {
+            console.log(`jobStart at {jobStart}`)
+        })        
+    }
+
+}
   
+const jobEnd = schedule.scheduleJob(sunSet, () => {
+    console.log(`jobEnd at {jobEnd}`)
+});
+
+jobStart();
+jobEnd();
+ 
