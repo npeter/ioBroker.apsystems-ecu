@@ -54,7 +54,7 @@ sunSetLiteral['minute'] = astroTime.sunset.getMinutes();
 
 let now = new Date();
 let nowObject = {};
-nowObject['hour'] = now.getHours() - (now.getTimezoneOffset()/60);
+nowObject['hour'] = now.getHours() //- (now.getTimezoneOffset()/60);
 nowObject['minutes'] = now.getMinutes() + 1;
 
 console.log(`now.getTimezoneOffset(): ${now.getTimezoneOffset()}`);
