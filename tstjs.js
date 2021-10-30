@@ -54,10 +54,13 @@ sunSetLiteral['minute'] = astroTime.sunset.getMinutes();
 
 let now = new Date();
 let nowObject = {};
-nowObject['hour'] = now.getHours();
+nowObject['hour'] = now.getHours() - (now.getTimezoneOffset()/60);
 nowObject['minutes'] = now.getMinutes() + 1;
 
+console.log(`now.getTimezoneOffset(): ${now.getTimezoneOffset()}`);
 console.log(nowObject);
+
+console.log(JSON.stringify(nowObject));
 
 const job = schedule.scheduleJob(nowObject, () => {
     console.log('hello peter');

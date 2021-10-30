@@ -50,6 +50,21 @@ class ApsystemsEcu extends utils.Adapter {
         // 
         //this.ecu.start(this.config.ecu_ip, this.config.ecu_port);
         this.ecu.init();
+
+        let systemConfig = this.getForeignObject('system.adapter.config', () => {
+            if (this.systemConfig) {
+                this.log.debug(`latitude: ${this.systemConfig.common.latitude}`);
+                this.log.debug(`longitude: ${this.systemConfig.common.longitude}`);     
+            } 
+            else {
+                this.log.debug(`this.systemConfig: ${this.systemConfig}`);
+            }
+        });
+      
+
+
+
+        //let systemConfig = this.getForeignObject('system.config', () => )
         this.setState(this.ecu.CMD_START_STOP, true, false);
 
         // request list of energy and power values
