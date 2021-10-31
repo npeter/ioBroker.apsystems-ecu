@@ -12,7 +12,7 @@
 
 ## Integration of APSystems inverters via ECU-R 
 This adapter integrates [APSystems](https://apsystems.com/) inverters via APSystems ECU-R communication unit. 
-The adapter queries the local ECU-R using the proprietary APSytems ECU to EMAapp protocol. It collects realtime information and history data from the unit about the connected (via zigbee) inverters and the ECU itself.
+The adapter queries the local ECU-R using the proprietary APSytems ECU to EMAapp protocol. It collects realtime information and history data about the ECU and about the configured inverters.
 <br>
 <br>
 ## Many Thanks ...
@@ -27,27 +27,63 @@ There exists also already a Python implementation for home assistant
 - Locale communcation über TCP port 8899
 - Cloude fake 
 - ECU to Inverter Intervall 300sec
-## Suported devices and functions 
+<br>
+<br>
+## Suported devices and services 
 
-Communication units:
+### Communication units:
 - ECU-R - tested
 - ECU-C - may work but not tested
 - ECU-B (not clear)
 
-Inverters:
+### Inverters:
 - QS1 - single device tested
 - YC600 - not tested
 - YC1000 - not tested
+<br>
+<br>
+## Functions
 
-ECU services:
-- GetSystemInfo
-- GetRealTimeData
-- GetPowerOfDay
-- GetEnergyOfWeekMonthYear
-- GetInverterSignalLevel
+* Implementation of all (known) services
+  * *GetSystemInfo*, *GetRealTimeData*, *GetInverterData*, *GetPowerOfDay*, *GetEnergyOfWeekMonthYear*
+  * Extraction and storing of all data offered by the services
+<br>
+<br>
+* Cyclic request of realtime services *GetSystemInfo*, *GetRealTimeData* and *GetInverterSignalLevel*
+  * Start/Stop of cyclic service execution by user
+    * *cmd_start_stop*=true/false 
+  * Cyclic requests are disabled between sunset and sunrise
+    * Longitude and latitude from system configuration used 
+<br>
+<br>
+* Calling of *GetPowerOfDay* service
+  * Selectable day *power_of_day_date* for power data
+  * Request once at adapter start
+  * Request by user
+    * *cmd_power_of_day*=true
+    * *power_of_day_date* changed
+<br>
+<br>
+* Calling of *GetEnergyOfWeekMonthYear* service 
+  * Once at adapter start
+  * Request by user
+    * *cmd_energy_of_week*=true
+    * *cmd_energy_of_month*=true
+    * *cmd_energy_of_year*=true
+<br>
+<br>
+* Supported Inverters
+  * Several inverter types are in principle supported
+  * But as of the limited availability ...
+    * QS1 (only tests with one connected inverter)
+    * YC600 (not tested)
+    * YC1000 (not tested)
+    * Extension of the test coverage with external support possible
 
-
-
+## Remark
+The ECU needs a working connection to the EMA claude. Without connection the ECU communication with inverters will not work.
+    
+    
 
 
 ## ToDo
@@ -70,7 +106,7 @@ Weblinks
 ## Changelog
 
 ### 0.0.1
-* (npeter) initial release
+* (npeter) initial prototype
 
 ## License
 MIT License
