@@ -44,19 +44,11 @@ class ApsystemsEcu extends utils.Adapter {
 
         // The adapters config (in the instance object everything under the attribute "native") is accessible via
         // this.config:
-        this.log.info('config ecu_ip: ' + this.config.ecu_ip);
-        this.log.info('config ecu_port: ' + this.config.ecu_port);
+        //this.log.info('config ecu_ip: ' + this.config.ecu_ip);
+        //this.log.info('config ecu_port: ' + this.config.ecu_port);
 
-         
         // finalize initialization and run Ecu
-        this.ecu.init();
-
-        this.subscribeStates(this.ecu.CMD_ENERGY_OF_WEEK_ID); 
-        this.subscribeStates(this.ecu.CMD_ENERGY_OF_MONTH_ID);
-        this.subscribeStates(this.ecu.CMD_ENERGY_OF_YEAR_ID);
-        this.subscribeStates(this.ecu.CMD_POWER_OF_DAY_ID);    
-        this.subscribeStates(this.ecu.POWER_OF_DAY_DATE_ID);   
-        this.subscribeStates(this.ecu.CMD_START_STOP);                                    
+        this.ecu.init();                           
     }
 
     /**
@@ -71,7 +63,7 @@ class ApsystemsEcu extends utils.Adapter {
             // ...
             // clearInterval(interval1);
 
-            this.ecu.stop();    // stop and clear Ecu
+            this.ecu.stop();    // stop and clean
 
             callback();
         } catch (e) {
