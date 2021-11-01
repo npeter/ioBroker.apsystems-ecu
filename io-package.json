@@ -2,6 +2,7 @@
     "common": {
         "name": "apsystems-ecu",
         "version": "0.0.1",
+        "communication": "local",
         "news": {
             "0.0.1": {
                 "en": "initial release",
@@ -63,7 +64,7 @@
         "materialize": true,
         "dependencies": [
             {
-                "js-controller": ">=1.4.2"
+                "js-controller": ">=3.0.0"
             }
         ]
     },
