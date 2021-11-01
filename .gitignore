@@ -5,6 +5,7 @@ node_modules
 nbproject
 .vscode
 tstjs.js
+iob_npm.done
 
 
 # npm package files
