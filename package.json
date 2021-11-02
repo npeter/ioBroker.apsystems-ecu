@@ -9,6 +9,9 @@
   "homepage": "https://github.com/npeter/ioBroker.apsystems-ecu",
   "license": "MIT",
   "keywords": [
+    "iobroker",
+    "smart home",
+    "ECU",
     "APSystems",
     "inverter",
     "solar-module"
