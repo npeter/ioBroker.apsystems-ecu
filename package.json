@@ -21,7 +21,9 @@
     "url": "https://github.com/npeter/ioBroker.apsystems-ecu"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^2.5.1"
+    "@iobroker/adapter-core": "^2.5.1",
+    "node-schedule": "^2.0.0",
+    "suncalc2": "^1.8.1"
   },
   "devDependencies": {
     "@iobroker/testing": "^2.5.2",
