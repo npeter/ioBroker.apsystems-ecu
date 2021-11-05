@@ -97,32 +97,18 @@ Only the following interface and protocol is supported
     
 
 
-## ToDo
-
-
-![Adapter Request](https://github.com/ioBroker/AdapterRequests/issues/645)
-
-Adapter Request
-https://github.com/ioBroker/AdapterRequests/issues/645
-
-
-https://community.home-assistant.io/t/apsystems-aps-ecu-r-local-inverters-data-pull/260835/141
-
-Weblinks
-
-[Extracting data from APSystems inverters via EMAcloud](https://medium.com/@rukmalf/extracting-data-from-apsystems-inverters-8c2b8e8942b6)
-
-
 
 ## Changelog
 
+### 0.1.0 
+* (npeter) initial commit on githup as public project
 ### 0.0.1
 * (npeter) initial prototype
+<br>
+<br>
 
 ## License
-MIT License
-
-Copyright (c) 2021 npeter <peter_n@gmx.de>
+MIT License - Copyright (c) 2021 npeter <peter_n@gmx.de>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -141,8 +127,27 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+<br>
+<br>
+<br>
 
 # TODO ... remove
+
+
+## ToDo
+
+
+![Adapter Request](https://github.com/ioBroker/AdapterRequests/issues/645)
+
+Adapter Request
+https://github.com/ioBroker/AdapterRequests/issues/645
+
+
+https://community.home-assistant.io/t/apsystems-aps-ecu-r-local-inverters-data-pull/260835/141
+
+Weblinks
+
+[Extracting data from APSystems inverters via EMAcloud](https://medium.com/@rukmalf/extracting-data-from-apsystems-inverters-8c2b8e8942b6)
 ## Developer manual
 This section is intended for the developer. It can be deleted later
 
