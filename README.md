@@ -13,7 +13,7 @@
 ## Integration of APSystems inverters via ECU-R 
 This adapter integrates [APSystems](https://apsystems.com/) inverters via APSystems ECU-R communication unit. 
 The adapter queries the local ECU-R using the proprietary APSytems ECU to EMAapp protocol. It collects realtime information and history data about the ECU and about the configured inverters.
-<br>
+The ECU supports several connections and protocols on its LAN and WLAN interface. This implementation supports only communication via TCP port 8899 and the so called command group 11.<br>
 <br>
 ## Many Thanks ...
 This project was only possible because of the great protocol analysis work of @checking12, @HAEdwin and other people on the home assistant forum. 
@@ -31,6 +31,7 @@ There exists also already a Python implementation for home assistant
 <br>
 ## Suported devices and services 
 
+
 ### Communication units:
 - ECU-R - tested
 - ECU-C - may work but not tested
@@ -40,11 +41,20 @@ There exists also already a Python implementation for home assistant
 - QS1 - single device tested
 - YC600 - not tested
 - YC1000 - not tested
+- Remark: The implementation is prepared for YC600, YC1000 and multiple inverters in any combination  but not tested yet. 
+
+## Interface and protocol
+
+Only the following interface and protocol is supported
+- WLAN
+- TCP port 8899
+- Command group 11
 <br>
 <br>
+
 ## Functions
 
-* Implementation of all (known) services
+* Implementation of all (known) command group 11 services
   * *GetSystemInfo*, *GetRealTimeData*, *GetInverterData*, *GetPowerOfDay*, *GetEnergyOfWeekMonthYear*
   * Extraction and storing of all data offered by the services
 <br>
@@ -80,8 +90,9 @@ There exists also already a Python implementation for home assistant
     * YC1000 (not tested)
     * Extension of the test coverage with external support possible
 
-## Remark
-The ECU needs a working connection to the EMA claude. Without connection the ECU communication with inverters will not work.
+## Remarks
+- The ECU needs a working connection to the EMA claude. The ECU communication with inverters will not work without this.
+- Only the ECU WLAN connection was used. 
     
     
 
