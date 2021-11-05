@@ -76,13 +76,23 @@
         <!-- For example columns with settings: -->
         <div class="row">
             <div class="col s6 input-field">
-                <input type="text" class="value" id="ecu_ip" />
-                <label for="ecu_id" class="translate">IP</label>
+                <input 
+                    id="ecu_ip"
+                    type="text" 
+                    required
+                    pattern="^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+                    class="value validate" 
+                />
+                <label for="ecu_id" class="translate">ECU WLAN IP-Adress</label>
             </div>
 
             <div class="col s6 input-field">
-                <input type="number" class="value" min="1000" max="65535" id="ecu_port" />
-                <label for="ecu_port" class="translate">port</label>
+                <input type="number" class="value" min="1" max="65535" id="ecu_port" />
+                <label for="ecu_port" class="translate">ECU WLAN TCP port (def. 8899)</label>
+            </div>
+            <div class="col s6 input-field">
+                <input type="checkbox" class="value" id="hide_ecu_id" value="true"/>
+                <label for="hide_ecu_id" class="translate">Hide ECU-Id in log and state</label>
             </div>
         </div>
 
