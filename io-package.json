@@ -58,7 +58,7 @@
         "enabled": true,
         "extIcon": "https://raw.githubusercontent.com/npeter/ioBroker.apsystems-ecu/master/admin/apsystems-ecu.png",
         "readme": "https://github.com/npeter/ioBroker.apsystems-ecu/blob/master/README.md",
-        "loglevel": "info",
+        "loglevel": "debug",
         "mode": "daemon",
         "type": "energy",
         "compact": true,
