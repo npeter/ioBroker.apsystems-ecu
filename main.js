@@ -37,17 +37,8 @@ class ApsystemsEcu extends utils.Adapter {
      * Is called when databases are connected and adapter received configuration.
      */
     async onReady() {
-        // Initialize your adapter here
-
         // Reset the connection indicator during startup
         this.setState('info.connection', false, true);
-
-        // The adapters config (in the instance object everything under the attribute "native") is accessible via
-        // this.config:
-        //this.log.info('config ecu_ip: ' + this.config.ecu_ip);
-        //this.log.info('config ecu_port: ' + this.config.ecu_port);
-
-        // finalize initialization and run Ecu
         this.ecu.init();                           
     }
 
@@ -57,14 +48,7 @@ class ApsystemsEcu extends utils.Adapter {
      */
     onUnload(callback) {
         try {
-            // Here you must clear all timeouts or intervals that may still be active
-            // clearTimeout(timeout1);
-            // clearTimeout(timeout2);
-            // ...
-            // clearInterval(interval1);
-
-            this.ecu.stop();    // stop and clean
-
+            this.ecu.unload();    
             callback();
         } catch (e) {
             callback();
