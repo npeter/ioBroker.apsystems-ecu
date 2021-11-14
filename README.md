@@ -12,8 +12,8 @@
 
 ## Integration of APSystems inverters via ECU-R 
 This adapter integrates [APSystems](https://apsystems.com/) inverters via APSystems ECU-R communication unit to collect data from solar modules. 
-The adapter queries the local ECU-R using the proprietary APSytems ECU to EMAapp protocol. It collects realtime information and history data about the ECU and about the configured inverters.
-The ECU supports several connections and protocols on its LAN and WLAN interface. This implementation supports only communication via TCP port 8899 and the so called command group 11.<br>
+The adapter queries the local ECU-R using the proprietary APSytems ECU to EMAapp protocol. It collects realtime information and history data from the ECU related about the configured inverters.
+The ECU supports several connections and protocols on its LAN and WLAN interface. This implementation is focused on the services available via WLAN TCP port 8899 and the so called command group 11 of the ECU.<br>
 <br>
 ## Many Thanks ...
 This project was only possible because of the great protocol analysis work of @checking12, @HAEdwin and other people on the home assistant forum. 
@@ -35,7 +35,7 @@ The adapter connects cyclic to the Ecu via TCP port 8899 (default) (port and IP 
 
 Remark: 
  - The setup of the Ecu, the inverters and the connection to the EMA cloud is not part of this project.
- - Till now the adapter was developed and tested with a small system with one Qs1 inverter only. Its prepared for other inverter types and multiple inverters but not tested.
+ - Till now the adapter was developed and tested with a small system with one QS1 inverter only. It's prepared for other inverter types and multiple inverters but not jet tested.
 <br>
 <br>
 ## Suported devices and services 
