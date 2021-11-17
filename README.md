@@ -42,9 +42,9 @@ Remark:
 <br>
 
 ### Communication units:
-- ECU-R - tested
+- ECU-R - tested (FW ECU_R_1.2.19)
 - ECU-C - may work but not tested
-- ECU-B (not clear)
+- ECU-B - not supported
 
 ### Inverters:
 - QS1 - single device tested
@@ -100,21 +100,34 @@ Only the following interface and protocol is supported
     * Extension of the test coverage with external support possible
 <br>
 <br>
-## Apendix
+
+
+## Appendix
+<br>
+
+### Links
+
 There are several projects about APsystems Inverters available using different interfaces.
 <br>
 Just an incomplete list of links ...
 
 
 
-[Collect inverter data via zigbee using Fake ECU](https://github.com/Koenkk/zigbee2mqtt/issues/4221)
+* [Collect inverter data via zigbee using Fake ECU](https://github.com/Koenkk/zigbee2mqtt/issues/4221)
 
-[ksheumaker/homeassistant-apsystems_ecur](https://github.com/ksheumaker/homeassistant-apsystems_ecur)
+* [ksheumaker/homeassistant-apsystems_ecur](https://github.com/ksheumaker/homeassistant-apsystems_ecur)
 
-[bgbraga/homeassistant-apsystems ](https://github.com/bgbraga/homeassistant-apsystems)
+* [bgbraga/homeassistant-apsystems ](https://github.com/bgbraga/homeassistant-apsystems)
 
-[Extracting data from APsystems inverters via EMA cloud](https://medium.com/@rukmalf/extracting-data-from-apsystems-inverters-8c2b8e8942b6) 
-    
+* [Extracting data from APsystems inverters via EMA cloud](https://medium.com/@rukmalf/extracting-data-from-apsystems-inverters-8c2b8e8942b6)     
+<br>
+<br>
+
+### ECU-R behaviour
+* The typical ECU-R response time in my configuration is <50ms (see debug log) 
+* I got regular a socket error (remote close) after communication pause > 15sec between service requests
+    * Enabling keep-alive did't improve this behavior
+    * So TCP connection is opened and closed for each communication cyclic to avoid remote close 
 <br>
 <br>    
 ## Changelog
