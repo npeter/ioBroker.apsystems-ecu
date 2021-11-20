@@ -137,6 +137,8 @@ Just an incomplete list of links ...
 
 ## Changelog
 
+### 0.2.1
+* (npeter) README.md improved
 ### 0.2.0 
 * (npeter) First alpha version
 ### 0.1.0 
