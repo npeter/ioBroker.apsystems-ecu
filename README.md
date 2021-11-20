@@ -68,6 +68,7 @@ Only the following interface and protocol is supported
   * Decoding and storing of all data offered by these services
 <br>
 <br>
+
 * Cyclic request of realtime services *GetSystemInfo*, *GetRealTimeData* and *GetInverterSignalLevel*
   * Start/Stop of cyclic service execution by user
     * *cmd_start_stop*=true/false 
@@ -75,6 +76,7 @@ Only the following interface and protocol is supported
     * Longitude and latitude from system configuration used 
 <br>
 <br>
+
 * Calling *GetPowerOfDay* service by command
   * Selectable day *power_of_day_date* for power data
   * Once requested at adapter start
@@ -83,6 +85,7 @@ Only the following interface and protocol is supported
     * *power_of_day_date* changed
 <br>
 <br>
+
 * Calling *GetEnergyOfWeekMonthYear* service by command
   * Once requested at adapter start
   * Request by user command
@@ -91,6 +94,7 @@ Only the following interface and protocol is supported
     * *cmd_energy_of_year*=true
 <br>
 <br>
+
 * Supported Inverters
   * Several inverter types are in principle supported
   * But as of the limited availability ...
@@ -100,7 +104,6 @@ Only the following interface and protocol is supported
     * Extension of the test coverage with external support possible
 <br>
 <br>
-
 
 ## Appendix
 <br>
@@ -130,6 +133,7 @@ Just an incomplete list of links ...
     * So TCP connection is opened and closed for each communication cyclic to avoid remote close 
 <br>
 <br>    
+
 ## Changelog
 
 ### 0.2.0 
