@@ -38,6 +38,7 @@ Remark:
  - Till now the adapter was developed and tested with a small system with one QS1 inverter only. It's prepared for other inverter types and multiple inverters but not jet tested.
 <br>
 <br>
+
 ## Suported devices and services 
 <br>
 
