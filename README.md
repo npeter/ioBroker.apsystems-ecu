@@ -40,7 +40,6 @@ Remark:
 <br>
 
 ## Suported devices and services 
-<br>
 
 ### Communication units:
 - ECU-R - tested (FW ECU_R_1.2.19)
