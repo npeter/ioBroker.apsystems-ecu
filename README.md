@@ -40,7 +40,6 @@ Remark:
 <br>
 
 ## Suported devices and services 
-<br>
 
 ### Communication units:
 - ECU-R - tested (FW ECU_R_1.2.19)
@@ -106,10 +105,10 @@ Only the following interface and protocol is supported
 <br>
 <br>
 
-## Appendix
+# Appendix
 <br>
 
-### Links
+## Links
 
 There are several projects about APsystems Inverters available using different interfaces.
 <br>
@@ -127,18 +126,176 @@ Just an incomplete list of links ...
 <br>
 <br>
 
-### ECU-R behaviour
+## ECU-R behaviour
 * The typical ECU-R response time in my configuration is <50ms (see debug log) 
 * I got regular a socket error (remote close) after communication pause > 15sec between service requests
     * Enabling keep-alive did't improve this behavior
     * So TCP connection is opened and closed for each communication cyclic to avoid remote close 
+<br><br><br>
+
+## APSystems ECU-R Protocol - Command Group 11
 <br>
-<br>    
+
+### GetSystemInfo
+<br>
+
+Request: "APS1100160001END\n"
+<br>
+
+| Response | Start Index   | Length | Coding | Name                 | Remark                  |
+| -------- | ------------- | ------ | ------ | -------------------- | ----------------------- |
+| Header   |               |        |        |                      |                         |
+|          | 0             | 3      | ASCII  | SignatureStart       | always "APS"            |
+|          | 3             | 2      | ASCII  | CommandGroup         | always"11"              |
+|          | 5             | 4      | ASCII  | FrameLength          |                         |
+|          | 9             | 4      | ASCII  | CommandCode          | "0001" - GetSystem Info |
+| ECU data |               |        |        |                      |                         |
+|          | 13            | 12     | ASCII  | ECU-Id               |                         |
+|          | 25            | 2      | ASCII  | ECIModel             |                         |
+|          | 27            | 4      | HEX    | LifeTimeEnergy       | /10 kWh                 |
+|          | 31            | 4      | HEX    | LastSystemPower      | W                       |
+|          | 35            | 4      | HEX    | CurrentDayEnergy     | /100 - kWh              |
+|          | 39            | 7      | BCD    | LastTimeConnectedEMA | always D0D0D0D0D0D0     |
+|          | 46            | 2      | HEX    | Inverters            |                         |
+|          | 48            | 2      | HEX    | InvertersOnline      |                         |
+|          | 50            | 2      | ASCII  | EcuChannel           | always "10"             |
+|          | 52            | 3      | ASCII  | VersionLength (vlen) | e.c. "014"              |
+|          | 55            | vlen   | ASCII  | Version              | ec. "ECU\_R\_1.2.17T4"  |
+|          | 55+vlen       | 3      | ASCII  | TimeZoneLen (tzlen)  | e.c. "009"              |
+|          | 58+vlen       | tzlen  | ASCII  | TimeZone             | e.c. "Utc/GMT-8"        |
+|          | 58+vlen+tzlen | 6      | HEX    | EthernetMAC          |                         |
+|          | 64+vlen+tzlen | 6      | HEX    | WirelessMAC          |                         |
+| Fooder   |               |        |        |                      |                         |
+|          | 70+vlen+tzlen | 3      | ASCII  | SignaturStop         | always "END"            |
+|          | 73+vlen+tzlen | 1      | ASCII  |                      | always "\\n"            |
+<br>
+
+### GetRealTimeData
+<br>
+
+Request: "APS110028000221600xxxxxxEND\n" where 21600xxxxxx=ECUId
+<br>
+
+| Response          | Start Index                   | Length | Coding | Name           | Remark                            |
+| ----------------- | ----------------------------- | ------ | ------ | -------------- | --------------------------------- |
+| Header            |                               |        |        |                |                                   |
+|                   | 0                             | 3      | ASCII  | SignatureStart | always "APS"                      |
+|                   | 3                             | 2      | ASCII  | CommandGroup   | always"11"                        |
+|                   | 5                             | 4      | ASCII  | FrameLength    |                                   |
+|                   | 9                             | 4      | ASCII  | CommandCode    | "0002" - GetRealTimeData          |
+|                   | 13                            | 2      | ASCII  | MatchStatus    | "00" - OK                         |
+| Common Data       |                               |        |        |                |
+|                   | 15                            | 2      | ASCII  | EcuModel       |                                   |
+|                   | 17                            | 2      | HEX    | Inverters      |                                   |
+|                   | 19                            | 7      | BCD    | DateTime       |                                   |
+| for all inverters |                               |        |        |                |
+|                   | common for all Inverter types |        |        |
+|                   | 26                            | 6      | ASCII  | InverterId     | "408000xxxxxx"                    |
+|                   | 32                            | 1      | HEX    | State          | 0x01 - online                     |
+|                   | 33                            | 2      | ASCII  | InverterType   | "01"/"02"/"03" - YC600/YC1000/QS1 |
+|                   | 35                            | 2      | HEX    | Frequency      | /10 - Hz                          |
+|                   | 37                            | 2      | HEX    | Temperature    | \-100 - °C                        |
+|                   | if YC600                      |        |        |                |                                   |
+|                   | 39                            | 2      | HEX    | Power1         |                                   |
+|                   | 41                            | 2      | HEX    | voltage1       | tbc                               |
+|                   | 43                            | 2      | HEX    | Power2         |                                   |
+|                   | 45                            | 2      | HEX    | voltage2       | tbc                               |
+|                   | if YC1000                     |        |        |                |                                   |
+|                   | 39                            | 2      | HEX    | Power1         |                                   |
+|                   | 41                            | 2      | HEX    | Voltage1       | tbc                               |
+|                   | 43                            | 2      | HEX    | Power2         |                                   |
+|                   | 45                            | 2      | HEX    | Voltage2       | tbc                               |
+|                   | 47                            | 2      | HEX    | Power3         |                                   |
+|                   | 49                            | 2      | HEX    | Voltage3       | tbc                               |
+|                   | 51                            | 2      | HEX    | notclear       |                                   |
+|                   | if QS1                        |        |        |                |                                   |
+|                   | 39                            | 2      | HEX    | Power1         |                                   |
+|                   | 41                            | 2      | HEX    | AcVoltage      |                                   |
+|                   | 43                            | 2      | HEX    | Power2         |                                   |
+|                   | 45                            | 2      | HEX    | Power3         |                                   |
+|                   | 47                            | 2      | HEX    | Power4         |                                   |
+|                   | …                             |        |        |                |                                   |
+| Fooder            |                               |        |        |                |                                   |
+|                   | len-3                         | 3      | ASCII  | SignatureStop  | always "END"                      |
+|                   | len                           | 1      | ASCII  |                | always "\\n"                      |
+<br>
+
+### GetPowerOfDay 
+<br>
+
+Request: "APS110039000321600xxxxxxENDdddddddd\n" where 21600xxxxxx=ECUId dddddddd=Date (BCD e.c. 20220209)
+<br>
+
+| Response             | Start Index | Length | Coding | Name           | Remark                            |
+| -------------------- | ----------- | ------ | ------ | -------------- | --------------------------------- |
+| Header               |             |        |        |                |                                   |
+|                      | 0           | 3      | ASCII  | SignatureStart | always "APS"                      |
+|                      | 3           | 2      | ASCII  | CommandGroup   | always"11"                        |
+|                      | 5           | 4      | ASCII  | FrameLength    |                                   |
+|                      | 9           | 4      | ASCII  | CommandCode    | "0003" - GetEnergyOfWeekMonthYear |
+|                      | 13          | 2      | ASCII  | MatchStatus    | "00" - OK                         |
+| for each power value |             |        |        |                |
+|                      | 15          | 2      | BCD    | Time           |                                   |
+|                      | 17          | 2      | HEX    | PowerOfDay     |                                   |
+|                      | …           |        |        |                |                                   |
+| Fooder               |             |        |        |                |                                   |
+|                      | len-3       | 3      | ASCII  | SignatureStop  | always "END"                      |
+|                      | len         | 1      | ASCII  |                | always "\\n"                      |
+<br>
+
+### GetEnergyOfWeekMonthYear
+<br> 
+
+Request: "APS110039000421600xxxxxxENDpp\n" where 21600xxxxxx=ECUId, pp=Period ("00"/"01"/"02" - week/month/year)
+<br>
+
+| Response             | Start Index | Length | Coding | Name           |                                   |
+| -------------------- | ----------- | ------ | ------ | -------------- | --------------------------------- |
+| Header               |             |        |        |                |                                   |
+|                      | 0           | 3      | ASCII  | SignatureStart | always "APS"                      |
+|                      | 3           | 2      | ASCII  | CommandGroup   | always"11"                        |
+|                      | 5           | 4      | ASCII  | FrameLength    |                                   |
+|                      | 9           | 4      | ASCII  | CommandCode    | "0040" - GetEnergyOfWeekMonthYear |
+|                      | 13          | 2      | ASCII  | MatchStatus    | "00" - OK                         |
+| Common Data          |             |        |        |                |
+|                      | 15          | 2      | ASCII  | WeekMonthYear  | 00=week, 01=month, 02=year        |
+| for each power value |             |        |        |                |
+|                      | 17          | 4      | BCD    | Date           | yyymmdd                           |
+|                      | 21          | 2      | HEX    | PowerOfDay     |                                   |
+|                      | …           |        |        |                |                                   |
+| Fooder               |             |        |        |                |                                   |
+|                      | len-3       | 3      | ASCII  | SignatureStop  | always "END"                      |
+|                      | len         | 1      | ASCII  |                | always "\\n"                      |
+<br>
+
+### GetInverterSignalLevel
+<br>
+
+Request: "APS110028000421600xxxxxxEND\n" where 21600xxxxxx=ECUId
+<br>
+
+| Response          | Start Index | Length | Coding | Name           |                            |
+| ----------------- | ----------- | ------ | ------ | -------------- | -------------------------- |
+| Header            |             |        |        |                |                            |
+|                   | 0           | 3      | ASCII  | SignatureStart | always "APS"               |
+|                   | 3           | 2      | ASCII  | CommandGroup   | always"11"                 |
+|                   | 5           | 4      | ASCII  | FrameLength    |                            |
+|                   | 9           | 4      | ASCII  | CommandCode    | "0030" - GetInverterSignal |
+|                   | 13          | 2      | ASCII  | MatchStatus    | "00" - OK                  |
+| for each inverter |             |        |        |                |
+|                   | 17          | 6      | BCD    | InverterId     | yyymmdd                    |
+|                   | 21          | 2      | HEX    | SignalLevel    |                            |
+|                   | …           |        |        |                |                            |
+| Fooder            |             |        |        |                |                            |
+|                   | len-3       | 3      | ASCII  | SignatureStop  | always "END"               |
+|                   | len         | 1      | ASCII  |                | always "\\n"               |
+
 
 ## Changelog
 
 ### 0.2.1
 * (npeter) README.md improved
+* [issue#1](https://github.com/npeter/ioBroker.apsystems-ecu/issues/1) in work
 ### 0.2.0 
 * (npeter) First alpha version
 ### 0.1.0 
