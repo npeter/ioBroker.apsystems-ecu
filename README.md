@@ -295,7 +295,7 @@ Request: "APS110028000421600xxxxxxEND\n" where 21600xxxxxx=ECUId
 
 ### 0.2.1
 * (npeter) README.md improved
-* [issue#1](https://github.com/npeter/ioBroker.apsystems-ecu/issues/1) in work
+* [ Inverter state values wrong if multiple inverters connected #1 ](https://github.com/npeter/ioBroker.apsystems-ecu/issues/1) solved tbt
 ### 0.2.0 
 * (npeter) First alpha version
 ### 0.1.0 
@@ -306,7 +306,7 @@ Request: "APS110028000421600xxxxxxEND\n" where 21600xxxxxx=ECUId
 <br>
 
 ## License
-MIT License - Copyright (c) 2021 npeter <peter_n@gmx.de>
+MIT License - Copyright (c) 2021-2022 npeter <peter_n@gmx.de>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
