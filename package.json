@@ -1,6 +1,6 @@
 {
   "name": "iobroker.apsystems-ecu",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Collection of realtime and history data from APSystems inverters using a local connection to ECU-R communication unit",
   "author": {
     "name": "npeter",

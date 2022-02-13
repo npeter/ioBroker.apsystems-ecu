@@ -107,6 +107,7 @@ Only the following interface and protocol is supported
     * Extension of the test coverage with external support possible
 <br>
 <br>
+
 * The adapter computes sunrise and sunset based on the iobroker system settings at midnight.
     * ECU polling is stopped at sunset and started at sunrise 
 
