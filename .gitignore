@@ -9,6 +9,7 @@ iob_npm.done
 ecu copy.js
 local-README.md
 local-ECU-protocol.xlsx
+etc/
 
 # npm package files
 iobroker.*.tgz

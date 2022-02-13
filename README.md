@@ -12,19 +12,19 @@
 
 ## Integration of APSystems inverters via ECU-R 
 This adapter integrates [APSystems](https://apsystems.com/) inverters via APSystems ECU-R communication unit to collect data from solar modules. 
-The adapter queries the local ECU-R using the proprietary APSytems ECU to EMAapp protocol. It collects realtime information and history data from the ECU related about the configured inverters.
+The adapter queries the local ECU-R using the proprietary APSytems ECU to EMAapp protocol. It collects realtime information and history data from the ECU about the configured inverters.
 The ECU supports several connections and protocols on its LAN and WLAN interface. This implementation is focused on the services available via WLAN TCP port 8899 and the so called command group 11 of the ECU.<br>
 <br>
 ## Many Thanks ...
 This project was only possible because of the great protocol analysis work of @checking12, @HAEdwin and other people on the home assistant forum. 
 <br>
-There exists also already a Python implementation for home assistant 
-[ksheumaker/homeassistant-apsystems_ecur](https://github.com/ksheumaker/homeassistant-apsystems_ecur) which was used to get a better understanding of the  of the ECU behavior. 
-See also the discussion in [APsystems APS ECU R local inverters data pull](https://community.home-assistant.io/t/apsystems-aps-ecu-r-local-inverters-data-pull/260835/141) for more details.
+There exists already a Python implementation for home assistant 
+[ksheumaker/homeassistant-apsystems_ecur](https://github.com/ksheumaker/homeassistant-apsystems_ecur) which was used to get a better understanding of the ECU behavior. 
+See also the discussion in [APsystems APS ECU R local inverters data pull](https://community.home-assistant.io/t/apsystems-aps-ecu-r-local-inverters-data-pull/260835/141) for more details. But this is a new development in JavaScript for iobroker.
 <br>
 <br>
 ## How it works
-The ECU has to run in its 'normal mode' and has to be connected to the local network and the internet. A connection to the EMA cloud seems to be needed or the Ecu will not offer the used interface (but this was not deeper investigated). In my system only the WLAN interface of the Ecu is used. The usage of the LAN interface was not investigated.
+The ECU has to run in its 'normal mode' and has to be connected to the local network and the internet. A connection to the EMA cloud seems to be needed or the Ecu will not offer the used services (but this was not deeper investigated). In my system only the WLAN interface of the Ecu is used. The usage of the LAN interface was not investigated.
 <br>
 The cycle time can be configured. The Ecu uses [zigbee](https://en.wikipedia.org/wiki/Zigbee) to communicate with the configured inverters. The typ. cycle time of the Ecu to inverter communication in smaller systems is normally 300sec.
 It's reported that the cycle time will increase in bigger systems but I could not investigated. 
@@ -35,7 +35,10 @@ The adapter connects cyclic to the Ecu via TCP port 8899 (default) (port and IP 
 
 Remark: 
  - The setup of the Ecu, the inverters and the connection to the EMA cloud is not part of this project.
- - Till now the adapter was developed and tested with a small system with one QS1 inverter only. It's prepared for other inverter types and multiple inverters but not jet tested.
+ - The adapter was developed and tested with a small system with one QS1 inverter only. 
+ - Further tests (4 * YC600) are done with the support of [bu.na](https://forum.iobroker.net/uid/45697) .
+ - It's also prepared for YC1000 inverters and system with several types but not jet tested.
+ - The state "info/timeZone" is part of the ECU SystemInfo-Response. It's always "Etc/GMT-8" which seems to be the default value (my assumtion).
 <br>
 <br>
 
@@ -48,9 +51,9 @@ Remark:
 
 ### Inverters:
 - QS1 - single device tested
-- YC600 - not tested
+- YC600 - multiple inverters tested
 - YC1000 - not tested
-- Remark: The implementation is prepared for YC600, YC1000 and multiple inverters in any combination  but not tested yet. 
+- Remark: The implementation is prepared for YC600, YC1000 and multiple inverters in any combination  but not fully tested. 
 
 ## Interface and protocol
 
@@ -104,6 +107,8 @@ Only the following interface and protocol is supported
     * Extension of the test coverage with external support possible
 <br>
 <br>
+* The adapter computes sunrise and sunset based on the iobroker system settings at midnight.
+    * ECU polling is stopped at sunset and started at sunrise 
 
 # Appendix
 <br>
@@ -160,9 +165,9 @@ Request: "APS1100160001END\n"
 |          | 48            | 2      | HEX    | InvertersOnline      |                         |
 |          | 50            | 2      | ASCII  | EcuChannel           | always "10"             |
 |          | 52            | 3      | ASCII  | VersionLength (vlen) | e.c. "014"              |
-|          | 55            | vlen   | ASCII  | Version              | ec. "ECU\_R\_1.2.17T4"  |
+|          | 55            | vlen   | ASCII  | Version              | e.c. "ECU\_R\_1.2.17T4"  |
 |          | 55+vlen       | 3      | ASCII  | TimeZoneLen (tzlen)  | e.c. "009"              |
-|          | 58+vlen       | tzlen  | ASCII  | TimeZone             | e.c. "Utc/GMT-8"        |
+|          | 58+vlen       | tzlen  | ASCII  | TimeZone             | (always?) "Utc/GMT-8"        |
 |          | 58+vlen+tzlen | 6      | HEX    | EthernetMAC          |                         |
 |          | 64+vlen+tzlen | 6      | HEX    | WirelessMAC          |                         |
 | Fooder   |               |        |        |                      |                         |
@@ -197,16 +202,16 @@ Request: "APS110028000221600xxxxxxEND\n" where 21600xxxxxx=ECUId
 |                   | 37                            | 2      | HEX    | Temperature    | \-100 - °C                        |
 |                   | if YC600                      |        |        |                |                                   |
 |                   | 39                            | 2      | HEX    | Power1         |                                   |
-|                   | 41                            | 2      | HEX    | voltage1       | tbc                               |
+|                   | 41                            | 2      | HEX    | AcVoltage1       |                                |
 |                   | 43                            | 2      | HEX    | Power2         |                                   |
-|                   | 45                            | 2      | HEX    | voltage2       | tbc                               |
+|                   | 45                            | 2      | HEX    | AcVoltage2       |                               |
 |                   | if YC1000                     |        |        |                |                                   |
 |                   | 39                            | 2      | HEX    | Power1         |                                   |
-|                   | 41                            | 2      | HEX    | Voltage1       | tbc                               |
+|                   | 41                            | 2      | HEX    | AcVoltage1       |                               |
 |                   | 43                            | 2      | HEX    | Power2         |                                   |
-|                   | 45                            | 2      | HEX    | Voltage2       | tbc                               |
+|                   | 45                            | 2      | HEX    | AcVoltage2       |                               |
 |                   | 47                            | 2      | HEX    | Power3         |                                   |
-|                   | 49                            | 2      | HEX    | Voltage3       | tbc                               |
+|                   | 49                            | 2      | HEX    | AcVoltage3       |                               |
 |                   | 51                            | 2      | HEX    | notclear       |                                   |
 |                   | if QS1                        |        |        |                |                                   |
 |                   | 39                            | 2      | HEX    | Power1         |                                   |
@@ -216,8 +221,8 @@ Request: "APS110028000221600xxxxxxEND\n" where 21600xxxxxx=ECUId
 |                   | 47                            | 2      | HEX    | Power4         |                                   |
 |                   | …                             |        |        |                |                                   |
 | Fooder            |                               |        |        |                |                                   |
-|                   | len-3                         | 3      | ASCII  | SignatureStop  | always "END"                      |
-|                   | len                           | 1      | ASCII  |                | always "\\n"                      |
+|                   | len-4                         | 3      | ASCII  | SignatureStop  | always "END"                      |
+|                   | len-1                           | 1      | ASCII  |                | always "\\n"                      |
 <br>
 
 ### GetPowerOfDay 
@@ -239,8 +244,8 @@ Request: "APS110039000321600xxxxxxENDdddddddd\n" where 21600xxxxxx=ECUId ddddddd
 |                      | 17          | 2      | HEX    | PowerOfDay     |                                   |
 |                      | …           |        |        |                |                                   |
 | Fooder               |             |        |        |                |                                   |
-|                      | len-3       | 3      | ASCII  | SignatureStop  | always "END"                      |
-|                      | len         | 1      | ASCII  |                | always "\\n"                      |
+|                      | len-4       | 3      | ASCII  | SignatureStop  | always "END"                      |
+|                      | len-1         | 1      | ASCII  |                | always "\\n"                      |
 <br>
 
 ### GetEnergyOfWeekMonthYear
@@ -264,8 +269,8 @@ Request: "APS110039000421600xxxxxxENDpp\n" where 21600xxxxxx=ECUId, pp=Period ("
 |                      | 21          | 2      | HEX    | PowerOfDay     |                                   |
 |                      | …           |        |        |                |                                   |
 | Fooder               |             |        |        |                |                                   |
-|                      | len-3       | 3      | ASCII  | SignatureStop  | always "END"                      |
-|                      | len         | 1      | ASCII  |                | always "\\n"                      |
+|                      | len-4       | 3      | ASCII  | SignatureStop  | always "END"                      |
+|                      | len-1         | 1      | ASCII  |                | always "\\n"                      |
 <br>
 
 ### GetInverterSignalLevel
@@ -284,18 +289,24 @@ Request: "APS110028000421600xxxxxxEND\n" where 21600xxxxxx=ECUId
 |                   | 13          | 2      | ASCII  | MatchStatus    | "00" - OK                  |
 | for each inverter |             |        |        |                |
 |                   | 17          | 6      | BCD    | InverterId     | yyymmdd                    |
-|                   | 21          | 2      | HEX    | SignalLevel    |                            |
+|                   | 21          | 1      | HEX    | SignalLevel    |                            |
 |                   | …           |        |        |                |                            |
 | Fooder            |             |        |        |                |                            |
-|                   | len-3       | 3      | ASCII  | SignatureStop  | always "END"               |
-|                   | len         | 1      | ASCII  |                | always "\\n"               |
+|                   | len-4       | 3      | ASCII  | SignatureStop  | always "END"               |
+|                   | len-1         | 1      | ASCII  |                | always "\\n"               |
 
 
 ## Changelog
-
+### 0.2.2 
+* issues [#1](https://github.com/npeter/ioBroker.apsystems-ecu/issues/1), [#2](https://github.com/npeter/ioBroker.apsystems-ecu/issues/2), [#3](https://github.com/npeter/ioBroker.apsystems-ecu/issues/3) solved and closed
+* YC600 and YC1000 states dc_voltage(n) changed to ac_voltage(n)
+* README.md  
+    * protocol description adapted
+    * some improvements and corrections
+    
 ### 0.2.1
 * (npeter) README.md improved
-* [ Inverter state values wrong if multiple inverters connected #1 ](https://github.com/npeter/ioBroker.apsystems-ecu/issues/1) solved tbt
+* [ Inverter state values wrong if multiple inverters connected #1 ](https://github.com/npeter/ioBroker.apsystems-ecu/issues/1) solved
 ### 0.2.0 
 * (npeter) First alpha version
 ### 0.1.0 
