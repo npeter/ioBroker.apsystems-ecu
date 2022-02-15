@@ -67,7 +67,7 @@ Only the following interface and protocol is supported
 ## Functions overview
 
 * Implementation of all (known) command group 11 services
-  * *GetSystemInfo*, *GetRealTimeData*, *GetInverterData*, *GetPowerOfDay*, *GetEnergyOfWeekMonthYear*
+  * *GetSystemInfo*, *GetRealTimeData*, *GetInverterData*SERVICE_COUNT_ID, *GetPowerOfDay*, *GetEnergyOfWeekMonthYear*
   * Decoding and storing of all data offered by these services
 <br>
 <br>
@@ -298,20 +298,37 @@ Request: "APS110028000421600xxxxxxEND\n" where 21600xxxxxx=ECUId
 
 
 ## Changelog
-### 0.2.2 
-* issues [#1](https://github.com/npeter/ioBroker.apsystems-ecu/issues/1), [#2](https://github.com/npeter/ioBroker.apsystems-ecu/issues/2), [#3](https://github.com/npeter/ioBroker.apsystems-ecu/issues/3) solved and closed
+
+### 0.2.3 (npeter) (in work)
+* new state ecu.total_energy_yesterday
+    * ecu.current_day_energy stored in ecu.total_energy_yesterday at midnight
+    * Remark: ecu.current_day_energy has to be reset by ECU
+* info.service_count set to 0 at midnight
+* new state ecu.dc_peak_power_today (drag indicator)
+    * peak of sum of dc_power of all inverters (GetRealTimeData)
+    * reset at midnight
+* new state ecu.dc_peak_power_yesterday 
+    * value of dc_peak_power_today at midnight
+* if inverter offline inverter.dc_power(n) and inverter.ac_voltage(n) set to 0 
+    * GetRealTimeData-Response-Data not used
+    * Remark: no reset of inverter.frequency and inverter.temperature by the adapter
+    * Todo this has to be analyzed!
+### 0.2.2 (npeter)
+* issues [#2](https://github.com/npeter/ioBroker.apsystems-ecu/issues/2), [#3](https://github.com/npeter/ioBroker.apsystems-ecu/issues/3) solved and closed
 * YC600 and YC1000 states dc_voltage(n) changed to ac_voltage(n)
 * README.md  
     * protocol description adapted
     * some improvements and corrections
     
-### 0.2.1
-* (npeter) README.md improved
+### 0.2.1 (npeter)
+* README.md improved
 * [ Inverter state values wrong if multiple inverters connected #1 ](https://github.com/npeter/ioBroker.apsystems-ecu/issues/1) solved
 ### 0.2.0 
 * (npeter) First alpha version
+
 ### 0.1.0 
 * (npeter) initial commit on githup as public project
+
 ### 0.0.1
 * (npeter) initial prototype
 <br>
