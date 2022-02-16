@@ -299,7 +299,7 @@ Request: "APS110028000421600xxxxxxEND\n" where 21600xxxxxx=ECUId
 
 ## Changelog
 
-### 0.2.3 (npeter) (in work 22-02-16)
+### 0.2.3 (npeter) (in work 22-02-16 - 19:12)
 * new state ecu.total_energy_yesterday
     * ecu.current_day_energy stored in ecu.total_energy_yesterday at midnight
     * Remark: ecu.current_day_energy has to be reset by ECU
