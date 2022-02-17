@@ -223,7 +223,7 @@ Request: "APS110028000221600xxxxxxEND\n" where 21600xxxxxx=ECUId
 |                   | …                             |        |        |                |                                   |
 | Fooder            |                               |        |        |                |                                   |
 |                   | len-4                         | 3      | ASCII  | SignatureStop  | always "END"                      |
-|                   | len-1                           | 1      | ASCII  |                | always "\\n"                      |
+|                   | len-1                         | 1      | ASCII  |                | always "\\n"                      |
 <br>
 
 ### GetPowerOfDay 
@@ -246,7 +246,7 @@ Request: "APS110039000321600xxxxxxENDdddddddd\n" where 21600xxxxxx=ECUId ddddddd
 |                      | …           |        |        |                |                                   |
 | Fooder               |             |        |        |                |                                   |
 |                      | len-4       | 3      | ASCII  | SignatureStop  | always "END"                      |
-|                      | len-1         | 1      | ASCII  |                | always "\\n"                      |
+|                      | len-1       | 1      | ASCII  |                | always "\\n"                      |
 <br>
 
 ### GetEnergyOfWeekMonthYear
@@ -271,7 +271,7 @@ Request: "APS110039000421600xxxxxxENDpp\n" where 21600xxxxxx=ECUId, pp=Period ("
 |                      | …           |        |        |                |                                   |
 | Fooder               |             |        |        |                |                                   |
 |                      | len-4       | 3      | ASCII  | SignatureStop  | always "END"                      |
-|                      | len-1         | 1      | ASCII  |                | always "\\n"                      |
+|                      | len-1       | 1      | ASCII  |                | always "\\n"                      |
 <br>
 
 ### GetInverterSignalLevel
@@ -294,25 +294,25 @@ Request: "APS110028000421600xxxxxxEND\n" where 21600xxxxxx=ECUId
 |                   | …           |        |        |                |                            |
 | Fooder            |             |        |        |                |                            |
 |                   | len-4       | 3      | ASCII  | SignatureStop  | always "END"               |
-|                   | len-1         | 1      | ASCII  |                | always "\\n"               |
+|                   | len-1       | 1      | ASCII  |                | always "\\n"               |
 
 
 ## Changelog
 
-### 0.2.3 (npeter) (in work 22-02-16 - 19:12)
+### 0.2.3 (npeter) (in work 22-02-17 - 08:06)
 * new state ecu.total_energy_yesterday
     * ecu.current_day_energy stored in ecu.total_energy_yesterday at midnight
-    * Remark: ecu.current_day_energy has to be reset by ECU
+    * Remark: ecu.current_day_energy is reset by ECU 
 * info.service_count set to 0 at midnight
 * new state ecu.dc_peak_power_today (drag indicator)
     * peak of sum of dc_power of all inverters (GetRealTimeData)
     * reset at midnight
 * new state ecu.dc_peak_power_yesterday 
     * value of dc_peak_power_today at midnight
-* if inverter offline inverter.dc_power(n) and inverter.ac_voltage(n) set to 0 
-    * GetRealTimeData-Response-Data not used
-    * Remark: no reset of inverter.frequency and inverter.temperature by the adapter
-    * Todo this has to be analyzed!
+* GetRealTimeData-Service 
+    * if "MatchStatus" == '00' AND inverter offline 
+        * inverter.dc_power(n) and inverter.ac_voltage(n) set to 0 
+
 ### 0.2.2 (npeter)
 * issues [#2](https://github.com/npeter/ioBroker.apsystems-ecu/issues/2), [#3](https://github.com/npeter/ioBroker.apsystems-ecu/issues/3) solved and closed
 * YC600 and YC1000 states dc_voltage(n) changed to ac_voltage(n)
