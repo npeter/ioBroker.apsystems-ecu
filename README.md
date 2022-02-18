@@ -299,19 +299,18 @@ Request: "APS110028000421600xxxxxxEND\n" where 21600xxxxxx=ECUId
 
 ## Changelog
 
-### 0.2.3 (npeter) (in work 22-02-17 - 08:06)
-* new state ecu.total_energy_yesterday
-    * ecu.current_day_energy stored in ecu.total_energy_yesterday at midnight
-    * Remark: ecu.current_day_energy is reset by ECU 
+### 0.2.3 (npeter) (in work 22-02-18)
+* new state ecu.total_energy_yesterday (issue [#5](https://github.com/npeter/ioBroker.apsystems-ecu/issues/5))
+  * ecu.current_day_energy stored in ecu.total_energy_yesterday at midnight
+  * Remark: ecu.current_day_energy is reset by ECU 
 * info.service_count set to 0 at midnight
-* new state ecu.dc_peak_power_today (drag indicator)
-    * peak of sum of dc_power of all inverters (GetRealTimeData)
-    * reset at midnight
 * new state ecu.dc_peak_power_yesterday 
-    * value of dc_peak_power_today at midnight
-* GetRealTimeData-Service 
-    * if "MatchStatus" == '00' AND inverter offline 
-        * inverter.dc_power(n) and inverter.ac_voltage(n) set to 0 
+  * update with ecu.dc_peak_power_today at midnight
+* new state ecu.dc_peak_power_today (drag indicator) (issue [#4](https://github.com/npeter/ioBroker.apsystems-ecu/issues/4))
+  * peak of dc_power of all inverters (GetRealTimeData)
+  * reset at midnight
+
+      
 
 ### 0.2.2 (npeter)
 * issues [#2](https://github.com/npeter/ioBroker.apsystems-ecu/issues/2), [#3](https://github.com/npeter/ioBroker.apsystems-ecu/issues/3) solved and closed
