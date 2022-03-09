@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "apsystems-ecu",
-        "version": "0.2.3",
+        "version": "0.2.4",
         "connectionType": "local",
         "dataSource": "poll",
         "news": {

@@ -300,6 +300,11 @@ Request: "APS110028000421600xxxxxxEND\n" where 21600xxxxxx=ECUId
 
 ## Changelog
 
+
+### 0.2.4 (npeter) (in work 22-03-09)
+* new configuration.poll_always added (test)
+  * poll_always will disable stopping of ECU polling at sunset
+
 ### 0.2.3 (npeter) (in work 22-03-09)
 * new state ecu.total_energy_yesterday (issue [#5](https://github.com/npeter/ioBroker.apsystems-ecu/issues/5))
   * ecu.current_day_energy stored in ecu.total_energy_yesterday at midnight
@@ -310,9 +315,6 @@ Request: "APS110028000421600xxxxxxEND\n" where 21600xxxxxx=ECUId
 * new state ecu.dc_peak_power_today (drag indicator) (issue [#4](https://github.com/npeter/ioBroker.apsystems-ecu/issues/4))
   * peak of dc_power of all inverters (GetRealTimeData)
   * reset at midnight
-* new configuration.poll_always added
-  * poll_always will disable stopping of ECU polling at sunset
-      
 
 ### 0.2.2 (npeter)
 * issues [#2](https://github.com/npeter/ioBroker.apsystems-ecu/issues/2), [#3](https://github.com/npeter/ioBroker.apsystems-ecu/issues/3) solved and closed
