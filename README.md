@@ -47,13 +47,13 @@ Remark:
 ### Communication units:
 - ECU-R - tested (FW ECU_R_1.2.19)
 - ECU-C - may work but not tested
-- ECU-B - not supported
+- ECU-B - test ongoing 
 
 ### Inverters:
 - QS1 - single device tested
 - YC600 - multiple inverters tested
 - YC1000 - not tested
-- DS3 - not supported
+- DS3 - test ongoing
 - Remark: The implementation is prepared for YC600, YC1000 and multiple inverters in any combination  but not fully tested. 
 
 ## Interface and protocol
@@ -193,27 +193,28 @@ Request: "APS110028000221600xxxxxxEND\n" where 21600xxxxxx=ECUId
 |                   | 13                            | 2      | ASCII  | MatchStatus    | "00" - OK                         |
 | Common Data       |                               |        |        |                |
 |                   | 15                            | 2      | ASCII  | EcuModel       |                                   |
-|                   | 17                            | 2      | HEX    | Inverters      |                                   |
+|                   | 17                            | 2      | HEX    | Inverters      | Nuber of inverter entries in RSP  |
 |                   | 19                            | 7      | BCD    | DateTime       |                                   |
-| for all inverters |                               |        |        |                |
-|                   | common for all Inverter types |        |        |
+| entry for each inverter |                               |        |        |                |
+|                   | common for all Inverter       |        |        |
 |                   | 26                            | 6      | ASCII  | InverterId     | "408000xxxxxx"                    |
-|                   | 32                            | 1      | HEX    | State          | 0x01 - online                     |
-|                   | 33                            | 2      | ASCII  | InverterType   | "01"/"02"/"03" - YC600/YC1000/QS1 |
-|                   | 35                            | 2      | HEX    | Frequency      | /10 - Hz                          |
+|                   | 32                            | 1      | HEX    | State          | 0x00/0x01 - offline/online        |
+|                   | 33                            | 2      | ASCII  | InverterType   | "00/"01"/"02"/"03" - unknown/YC600,DS3/YC1000/QS1 |
+|                   | common if InverterType == "01"/"02"/"03"
+|                   | 35                            | 2      | HEX    | Frequency      | *0.*1 - Hz                        |
 |                   | 37                            | 2      | HEX    | Temperature    | \-100 - °C                        |
-|                   | if YC600                      |        |        |                |                                   |
+|                   | if YC600 or DS3               |        |        |                |                                   |
 |                   | 39                            | 2      | HEX    | Power1         |                                   |
-|                   | 41                            | 2      | HEX    | AcVoltage1       |                                |
+|                   | 41                            | 2      | HEX    | AcVoltage1     |                                   |
 |                   | 43                            | 2      | HEX    | Power2         |                                   |
-|                   | 45                            | 2      | HEX    | AcVoltage2       |                               |
+|                   | 45                            | 2      | HEX    | AcVoltage2     |                                   |
 |                   | if YC1000                     |        |        |                |                                   |
 |                   | 39                            | 2      | HEX    | Power1         |                                   |
-|                   | 41                            | 2      | HEX    | AcVoltage1       |                               |
+|                   | 41                            | 2      | HEX    | AcVoltage1     |                                   |
 |                   | 43                            | 2      | HEX    | Power2         |                                   |
-|                   | 45                            | 2      | HEX    | AcVoltage2       |                               |
+|                   | 45                            | 2      | HEX    | AcVoltage2     |                                   |
 |                   | 47                            | 2      | HEX    | Power3         |                                   |
-|                   | 49                            | 2      | HEX    | AcVoltage3       |                               |
+|                   | 49                            | 2      | HEX    | AcVoltage3     |                                   |
 |                   | 51                            | 2      | HEX    | notclear       |                                   |
 |                   | if QS1                        |        |        |                |                                   |
 |                   | 39                            | 2      | HEX    | Power1         |                                   |
@@ -226,7 +227,13 @@ Request: "APS110028000221600xxxxxxEND\n" where 21600xxxxxx=ECUId
 |                   | len-4                         | 3      | ASCII  | SignatureStop  | always "END"                      |
 |                   | len-1                         | 1      | ASCII  |                | always "\\n"                      |
 <br>
-
+Inverter Id's
+| Type | Id-Prefix
+| YC600  | "40xxxxxxxxxx"
+| YC1000 | "50xxxxxxxxxx" 
+| DS2    | "70xxxxxxxxxx" 
+| QS1    | "80xxxxxxxxxx"
+<br>
 ### GetPowerOfDay 
 <br>
 
@@ -300,6 +307,18 @@ Request: "APS110028000421600xxxxxxEND\n" where 21600xxxxxx=ECUId
 
 ## Changelog
 
+### 0.2.5 (npeter) (in work 22-03-24)
+* Testversion for [#8](https://github.com/npeter/ioBroker.apsystems-ecu/issues/8)
+  * ECU connect/disconect for each service
+    * "ECU intervall" is used as delay between service calls instead of delay between ECU polling
+      * SystemInfo - delay - GetRealTimeData - delay - GetInverterSignalLevel - delay - [GetPowerOfDay - delay -] [...] 
+    * Service error is ignored (no repeat) 
+* Support of DS3 
+  * Device with "ds3" prefix created
+* Correct processing of "only registered" inverters
+  * No devices and states created
+* GetRealTimeData protocoll doc improved (DS3 and only registered inverters)
+* ECU Version added to SystemInfo debug log
 
 ### 0.2.4 (npeter) (in work 22-03-09)
 * new configuration.poll_always added (test)
