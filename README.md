@@ -307,7 +307,11 @@ Request: "APS110028000421600xxxxxxEND\n" where 21600xxxxxx=ECUId
 
 ## Changelog
 
-### 0.2.5 (npeter) (in work 22-03-24)
+### 0.2.6 (npeter) (in work 22-03-26)
+* Testversion for [#8](https://github.com/npeter/ioBroker.apsystems-ecu/issues/8)
+  * YC600 and DS3 identfication corrected
+
+### 0.2.5 (npeter) (in work 22-03-25)
 * Testversion for [#8](https://github.com/npeter/ioBroker.apsystems-ecu/issues/8)
   * ECU connect/disconect for each service
     * "ECU intervall" is used as delay between service calls instead of delay between ECU polling
