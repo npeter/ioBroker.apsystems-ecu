@@ -307,6 +307,10 @@ Request: "APS110028000421600xxxxxxEND\n" where 21600xxxxxx=ECUId
 
 ## Changelog
 
+### 0.2.8 (npeter) (in work 22-03-27-B)
+* Testversion for [#8](https://github.com/npeter/ioBroker.apsystems-ecu/issues/8)
+  * DS3 states Power1/2, and Voltage1/2 added - correction of 0.2.7
+
 ### 0.2.7 (npeter) (in work 22-03-27)
 * Testversion for [#8](https://github.com/npeter/ioBroker.apsystems-ecu/issues/8)
   * DS3 states Power1/2, and Voltage1/2 added
