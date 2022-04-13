@@ -154,7 +154,7 @@ Request: "APS1100160001END\n"
 | Header   |               |        |        |                      |                         |
 |          | 0             | 3      | ASCII  | SignatureStart       | always "APS"            |
 |          | 3             | 2      | ASCII  | CommandGroup         | always"11"              |
-|          | 5             | 4      | ASCII  | FrameLength          |                         |
+|          | 5             | 4      | ASCII  | ResponseLenght       |                         |
 |          | 9             | 4      | ASCII  | CommandCode          | "0001" - GetSystem Info |
 | ECU data |               |        |        |                      |                         |
 |          | 13            | 12     | ASCII  | ECU-Id               |                         |
@@ -188,9 +188,9 @@ Request: "APS110028000221600xxxxxxEND\n" where 21600xxxxxx=ECUId
 | Header            |                               |        |        |                |                                   |
 |                   | 0                             | 3      | ASCII  | SignatureStart | always "APS"                      |
 |                   | 3                             | 2      | ASCII  | CommandGroup   | always"11"                        |
-|                   | 5                             | 4      | ASCII  | FrameLength    |                                   |
+|                   | 5                             | 4      | ASCII  | ResponseLenght    |                                   |
 |                   | 9                             | 4      | ASCII  | CommandCode    | "0002" - GetRealTimeData          |
-|                   | 13                            | 2      | ASCII  | MatchStatus    | "00" - OK                         |
+|                   | 13                            | 2      | ASCII  | MatchStatus    | "00"/"01" - ok/no data                          |
 | Common Data       |                               |        |        |                |
 |                   | 15                            | 2      | ASCII  | EcuModel       |                                   |
 |                   | 17                            | 2      | HEX    | Inverters      | Nuber of inverter entries in RSP  |
@@ -245,9 +245,9 @@ Request: "APS110039000321600xxxxxxENDdddddddd\n" where 21600xxxxxx=ECUId ddddddd
 | Header               |             |        |        |                |                                   |
 |                      | 0           | 3      | ASCII  | SignatureStart | always "APS"                      |
 |                      | 3           | 2      | ASCII  | CommandGroup   | always"11"                        |
-|                      | 5           | 4      | ASCII  | FrameLength    |                                   |
+|                      | 5           | 4      | ASCII  | ResponseLenght    |                                   |
 |                      | 9           | 4      | ASCII  | CommandCode    | "0003" - GetEnergyOfWeekMonthYear |
-|                      | 13          | 2      | ASCII  | MatchStatus    | "00" - OK                         |
+|                      | 13          | 2      | ASCII  | MatchStatus    | "00"/"01" - ok/no data                          |
 | for each power value |             |        |        |                |
 |                      | 15          | 2      | BCD    | Time           |                                   |
 |                      | 17          | 2      | HEX    | PowerOfDay     |                                   |
@@ -268,9 +268,9 @@ Request: "APS110039000421600xxxxxxENDpp\n" where 21600xxxxxx=ECUId, pp=Period ("
 | Header               |             |        |        |                |                                   |
 |                      | 0           | 3      | ASCII  | SignatureStart | always "APS"                      |
 |                      | 3           | 2      | ASCII  | CommandGroup   | always"11"                        |
-|                      | 5           | 4      | ASCII  | FrameLength    |                                   |
+|                      | 5           | 4      | ASCII  | ResponseLenght   |                                   |
 |                      | 9           | 4      | ASCII  | CommandCode    | "0040" - GetEnergyOfWeekMonthYear |
-|                      | 13          | 2      | ASCII  | MatchStatus    | "00" - OK                         |
+|                      | 13          | 2      | ASCII  | MatchStatus    | "00"/"01" - ok/no data                          |
 | Common Data          |             |        |        |                |
 |                      | 15          | 2      | ASCII  | WeekMonthYear  | 00=week, 01=month, 02=year        |
 | for each power value |             |        |        |                |
@@ -293,9 +293,9 @@ Request: "APS110028000421600xxxxxxEND\n" where 21600xxxxxx=ECUId
 | Header            |             |        |        |                |                            |
 |                   | 0           | 3      | ASCII  | SignatureStart | always "APS"               |
 |                   | 3           | 2      | ASCII  | CommandGroup   | always"11"                 |
-|                   | 5           | 4      | ASCII  | FrameLength    |                            |
+|                   | 5           | 4      | ASCII  | ResponseLenght    |                            |
 |                   | 9           | 4      | ASCII  | CommandCode    | "0030" - GetInverterSignal |
-|                   | 13          | 2      | ASCII  | MatchStatus    | "00" - OK                  |
+|                   | 13          | 2      | ASCII  | MatchStatus    | "00"/"01" - ok/no data                 |
 | for each inverter |             |        |        |                |
 |                   | 17          | 6      | BCD    | InverterId     | yyymmdd                    |
 |                   | 21          | 1      | HEX    | SignalLevel    |                            |
@@ -306,6 +306,10 @@ Request: "APS110028000421600xxxxxxEND\n" where 21600xxxxxx=ECUId
 
 
 ## Changelog
+
+### 0.2.9 (npeter) (in work 22-04-13)
+* MatchStatus check for "no data" added/improved (GetRealTimeData, GetPowerOfDay, GetEnergyOfWeekMonthYear, GetInverterSignalLevel)
+* Response length check improved
 
 ### 0.2.8 (npeter) (in work 22-03-27-B)
 * Testversion for [#8](https://github.com/npeter/ioBroker.apsystems-ecu/issues/8)
