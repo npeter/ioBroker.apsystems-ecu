@@ -11,8 +11,8 @@
 [![NPM](https://nodei.co/npm/iobroker.apsystems-ecu.png?downloads=true)](https://nodei.co/npm/iobroker.apsystems-ecu/)
 
 ## Integration of APSystems inverters via ECU-R 
-This adapter integrates [APSystems](https://apsystems.com/) inverters via APSystems ECU-R communication unit to collect data from solar modules. 
-The adapter queries the local ECU-R using the proprietary APSytems ECU to EMAapp protocol. It collects realtime information and history data from the ECU about the configured inverters.
+This adapter integrates [APSystems](https://apsystems.com/) inverters via APSystems ECU-R/ECU-B communication unit to collect data from solar modules. 
+The adapter queries the local ECU using the proprietary APSytems ECU to EMAapp protocol. It collects realtime information and history data from the ECU about the configured inverters.
 The ECU supports several connections and protocols on its LAN and WLAN interface. This implementation is focused on the services available via WLAN TCP port 8899 and the so called command group 11 of the ECU.<br>
 <br>
 ## Many Thanks ...
@@ -20,41 +20,41 @@ This project was only possible because of the great protocol analysis work of @c
 <br>
 There exists already a Python implementation for home assistant 
 [ksheumaker/homeassistant-apsystems_ecur](https://github.com/ksheumaker/homeassistant-apsystems_ecur) which was used to get a better understanding of the ECU behavior. 
-See also the discussion in [APsystems APS ECU R local inverters data pull](https://community.home-assistant.io/t/apsystems-aps-ecu-r-local-inverters-data-pull/260835/141) for more details. But this is a new development in JavaScript for iobroker.
+See also the discussion in [APsystems APS ECU R local inverters data pull](https://community.home-assistant.io/t/apsystems-aps-ecu-r-local-inverters-data-pull/260835/141) for more details. 
+<br>
+*apsystems-ecu* is a new development in JavaScript for iobroker.
 <br>
 <br>
 ## How it works
 The ECU has to run in its 'normal mode' and has to be connected to the local network and the internet. A connection to the EMA cloud seems to be needed or the Ecu will not offer the used services (but this was not deeper investigated). In my system only the WLAN interface of the Ecu is used. The usage of the LAN interface was not investigated.
 <br>
-The cycle time can be configured. The Ecu uses [zigbee](https://en.wikipedia.org/wiki/Zigbee) to communicate with the configured inverters. The typ. cycle time of the Ecu to inverter communication in smaller systems is normally 300sec.
+The Ecu uses [zigbee](https://en.wikipedia.org/wiki/Zigbee) to communicate with the configured inverters. The poll time of the Ecu to inverter communication in smaller systems is normally 300sec.
 It's reported that the cycle time will increase in bigger systems but I could not investigated. 
 <br>
-The adapter connects cyclic to the Ecu via TCP port 8899 (default) (port and IP address can be configured) and collects data. The cycle time can be configured. In each cycle several services are called. Received data used to update the database. Objects and states are automatically created if new devices (inverters) are online. 
+The adapter connects cyclic to the Ecu via TCP port 8899 (default) (port and IP address can be configured) and collects data. The adapter poll time can be configured. Received data used to update the iobroker database. Objects and states are automatically created if new devices (inverters) are online. 
 <br>
 
 
 Remark: 
  - The setup of the Ecu, the inverters and the connection to the EMA cloud is not part of this project.
  - The adapter was developed and tested with a small system with one QS1 inverter only. 
- - Further tests (4 * YC600) are done with the support of [bu.na](https://forum.iobroker.net/uid/45697) .
+ - Further tests with YC600, DS3, ECU-B are done with support of some users.
  - It's also prepared for YC1000 inverters and system with several types but not jet tested.
- - The state "info/timeZone" is part of the ECU SystemInfo-Response. It's always "Etc/GMT-8" which seems to be the default value (my assumtion).
 <br>
 <br>
 
 ## Suported devices and services 
 
 ### Communication units:
-- ECU-R - tested (FW ECU_R_1.2.19)
+- ECU-R - OK
 - ECU-C - may work but not tested
-- ECU-B - test ongoing 
+- ECU-B - OK (may depent on firmware version)
 
 ### Inverters:
-- QS1 - single device tested
-- YC600 - multiple inverters tested
+- QS1 - OK - tested
+- YC600 - OK - tested
 - YC1000 - not tested
-- DS3 - test ongoing
-- Remark: The implementation is prepared for YC600, YC1000 and multiple inverters in any combination  but not fully tested. 
+- DS3 - OK - tested
 
 ## Interface and protocol
 
@@ -68,7 +68,8 @@ Only the following interface and protocol is supported
 ## Functions overview
 
 * Implementation of all (known) command group 11 services
-  * *GetSystemInfo*, *GetRealTimeData*, *GetInverterData*SERVICE_COUNT_ID, *GetPowerOfDay*, *GetEnergyOfWeekMonthYear*
+  * *GetSystemInfo*, *GetRealTimeData*, *GetInverterData*SERVICE_COUNT_ID, *GetPowerOfDay*
+  * *GetEnergyOfWeekMonthYear* - no more supported by ECU with firmware version > 2.x
   * Decoding and storing of all data offered by these services
 <br>
 <br>
@@ -91,21 +92,13 @@ Only the following interface and protocol is supported
 <br>
 
 * Calling *GetEnergyOfWeekMonthYear* service by command
+  * Support depents on ECU firmware version
+  * disable/enable with config parameter extendedService 
   * Once requested at adapter start
   * Request by user command
     * *cmd_energy_of_week*=true
     * *cmd_energy_of_month*=true
     * *cmd_energy_of_year*=true
-<br>
-<br>
-
-* Supported Inverters
-  * Several inverter types are in principle supported
-  * But as of the limited availability ...
-    * QS1 (only tests with one connected inverter)
-    * YC600 (not tested)
-    * YC1000 (not tested)
-    * Extension of the test coverage with external support possible
 <br>
 <br>
 
@@ -137,10 +130,10 @@ Just an incomplete list of links ...
 * The typical ECU-R response time in my configuration is <50ms (see debug log) 
 * I got regular a socket error (remote close) after communication pause > 15sec between service requests
     * Enabling keep-alive did't improve this behavior
-    * So TCP connection is opened and closed for each communication cyclic to avoid remote close 
+    * So TCP connection is opened and closed for each communication service to avoid remote close 
 <br><br><br>
 
-## APSystems ECU-R Protocol - Command Group 11
+## APSystems ECU Protocol - Command Group 11
 <br>
 
 ### GetSystemInfo
@@ -154,7 +147,7 @@ Request: "APS1100160001END\n"
 | Header   |               |        |        |                      |                         |
 |          | 0             | 3      | ASCII  | SignatureStart       | always "APS"            |
 |          | 3             | 2      | ASCII  | CommandGroup         | always"11"              |
-|          | 5             | 4      | ASCII  | ResponseLenght       |                         |
+|          | 5             | 4      | ASCII  | ResponseLenght       | from "APS" to "END"     |
 |          | 9             | 4      | ASCII  | CommandCode          | "0001" - GetSystem Info |
 | ECU data |               |        |        |                      |                         |
 |          | 13            | 12     | ASCII  | ECU-Id               |                         |
@@ -188,7 +181,7 @@ Request: "APS110028000221600xxxxxxEND\n" where 21600xxxxxx=ECUId
 | Header            |                               |        |        |                |                                   |
 |                   | 0                             | 3      | ASCII  | SignatureStart | always "APS"                      |
 |                   | 3                             | 2      | ASCII  | CommandGroup   | always"11"                        |
-|                   | 5                             | 4      | ASCII  | ResponseLenght    |                                   |
+|                   | 5                             | 4      | ASCII  | ResponseLenght    |  from "APS" to "END"                                 |
 |                   | 9                             | 4      | ASCII  | CommandCode    | "0002" - GetRealTimeData          |
 |                   | 13                            | 2      | ASCII  | MatchStatus    | "00"/"01" - ok/no data                          |
 | Common Data       |                               |        |        |                |
@@ -245,7 +238,7 @@ Request: "APS110039000321600xxxxxxENDdddddddd\n" where 21600xxxxxx=ECUId ddddddd
 | Header               |             |        |        |                |                                   |
 |                      | 0           | 3      | ASCII  | SignatureStart | always "APS"                      |
 |                      | 3           | 2      | ASCII  | CommandGroup   | always"11"                        |
-|                      | 5           | 4      | ASCII  | ResponseLenght    |                                   |
+|                      | 5           | 4      | ASCII  | ResponseLenght    | from "APS" to "END"                                  |
 |                      | 9           | 4      | ASCII  | CommandCode    | "0003" - GetEnergyOfWeekMonthYear |
 |                      | 13          | 2      | ASCII  | MatchStatus    | "00"/"01" - ok/no data                          |
 | for each power value |             |        |        |                |
@@ -257,7 +250,7 @@ Request: "APS110039000321600xxxxxxENDdddddddd\n" where 21600xxxxxx=ECUId ddddddd
 |                      | len-1       | 1      | ASCII  |                | always "\\n"                      |
 <br>
 
-### GetEnergyOfWeekMonthYear
+### GetEnergyOfWeekMonthYear (suport depents on ECU type and firmware version)
 <br> 
 
 Request: "APS110039000421600xxxxxxENDpp\n" where 21600xxxxxx=ECUId, pp=Period ("00"/"01"/"02" - week/month/year)
@@ -293,7 +286,7 @@ Request: "APS110028000421600xxxxxxEND\n" where 21600xxxxxx=ECUId
 | Header            |             |        |        |                |                            |
 |                   | 0           | 3      | ASCII  | SignatureStart | always "APS"               |
 |                   | 3           | 2      | ASCII  | CommandGroup   | always"11"                 |
-|                   | 5           | 4      | ASCII  | ResponseLenght    |                            |
+|                   | 5           | 4      | ASCII  | ResponseLenght    |  from "APS" to "END"                          |
 |                   | 9           | 4      | ASCII  | CommandCode    | "0030" - GetInverterSignal |
 |                   | 13          | 2      | ASCII  | MatchStatus    | "00"/"01" - ok/no data                 |
 | for each inverter |             |        |        |                |
@@ -307,9 +300,14 @@ Request: "APS110028000421600xxxxxxEND\n" where 21600xxxxxx=ECUId
 
 ## Changelog
 
-### 0.2.9 (npeter) (in work 22-04-13)
-* MatchStatus check for "no data" added/improved (GetRealTimeData, GetPowerOfDay, GetEnergyOfWeekMonthYear, GetInverterSignalLevel)
+### 0.2.9 (npeter) (in work 22-04-14)
+* Service response status check about  "no data" added/improved 
 * Response length check improved
+* New config parameter *extended_service* to disable/enable GetEnergyOfWeekMonthYear service processing
+  * avoid warnings if firmware support for GetEnergyOfWeekMonthYear service is missed
+  * checked:  GetEnergyOfWeekMonthYear states created and services executed 
+  * not checked (default): GetEnergyOfWeekMonthYear services are skiped and states not created
+* Config parameter *pollAlways* removed
 
 ### 0.2.8 (npeter) (in work 22-03-27-B)
 * Testversion for [#8](https://github.com/npeter/ioBroker.apsystems-ecu/issues/8)
