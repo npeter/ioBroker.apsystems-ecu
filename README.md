@@ -165,7 +165,7 @@ Request: "APS1100160001END\n"
 |          | 58+vlen       | tzlen  | ASCII  | TimeZone             | (always?) "Utc/GMT-8"        |
 |          | 58+vlen+tzlen | 6      | HEX    | EthernetMAC          |                         |
 |          | 64+vlen+tzlen | 6      | HEX    | WirelessMAC          |                         |
-| Fooder   |               |        |        |                      |                         |
+| Footer   |               |        |        |                      |                         |
 |          | 70+vlen+tzlen | 3      | ASCII  | SignaturStop         | always "END"            |
 |          | 73+vlen+tzlen | 1      | ASCII  |                      | always "\\n"            |
 <br>
@@ -215,7 +215,7 @@ Request: "APS110028000221600xxxxxxxEND\n" where 21600xxxxxxx=ECUId
 |                   | 45                            | 2      | HEX    | Power3         |                                   |
 |                   | 47                            | 2      | HEX    | Power4         |                                   |
 |                   | …                             |        |        |                |                                   |
-| Fooder            |                               |        |        |                |                                   |
+| Footer            |                               |        |        |                |                                   |
 |                   | len-4                         | 3      | ASCII  | SignatureStop  | always "END"                      |
 |                   | len-1                         | 1      | ASCII  |                | always "\\n"                      |
 
@@ -249,7 +249,7 @@ Request: "APS110039000321600xxxxxxxENDdddddddd\n" where 21600xxxxxxx=ECUId ddddd
 |                      | 15          | 2      | BCD    | Time           |                                   |
 |                      | 17          | 2      | HEX    | PowerOfDay     |                                   |
 |                      | …           |        |        |                |                                   |
-| Fooder               |             |        |        |                |                                   |
+| Footer               |             |        |        |                |                                   |
 |                      | len-4       | 3      | ASCII  | SignatureStop  | always "END"                      |
 |                      | len-1       | 1      | ASCII  |                | always "\\n"                      |
 <br>
@@ -274,7 +274,7 @@ Request: "APS110039000421600xxxxxxENDpp\n" where 21600xxxxxx=ECUId, pp=Period ("
 |                      | 17          | 4      | BCD    | Date           | yyymmdd                           |
 |                      | 21          | 2      | HEX    | PowerOfDay     |                                   |
 |                      | …           |        |        |                |                                   |
-| Fooder               |             |        |        |                |                                   |
+| Footer               |             |        |        |                |                                   |
 |                      | len-4       | 3      | ASCII  | SignatureStop  | always "END"                      |
 |                      | len-1       | 1      | ASCII  |                | always "\\n"                      |
 <br>
@@ -297,7 +297,7 @@ Request: "APS110028000421600xxxxxxEND\n" where 21600xxxxxx=ECUId
 |                   | 17          | 6      | BCD    | InverterId     | yyymmdd                    |
 |                   | 21          | 1      | HEX    | SignalLevel    |                            |
 |                   | …           |        |        |                |                            |
-| Fooder            |             |        |        |                |                            |
+| Footer            |             |        |        |                |                            |
 |                   | len-4       | 3      | ASCII  | SignatureStop  | always "END"               |
 |                   | len-1       | 1      | ASCII  |                | always "\\n"               |
 
