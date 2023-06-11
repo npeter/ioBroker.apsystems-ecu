@@ -172,8 +172,7 @@ Request: "APS1100160001END\n"
 
 ### GetRealTimeData
 <br>
-
-Request: "APS110028000221600xxxxxxEND\n" where 21600xxxxxx=ECUId
+Request: "APS110028000221600xxxxxxxEND\n" where 21600xxxxxxx=ECUId
 <br>
 
 | Response          | Start Index                   | Length | Coding | Name           | Remark                            |
@@ -219,18 +218,23 @@ Request: "APS110028000221600xxxxxxEND\n" where 21600xxxxxx=ECUId
 | Fooder            |                               |        |        |                |                                   |
 |                   | len-4                         | 3      | ASCII  | SignatureStop  | always "END"                      |
 |                   | len-1                         | 1      | ASCII  |                | always "\\n"                      |
-<br>
-Inverter Id's
-| Type | Id-Prefix
-| YC600  | "40xxxxxxxxxx"
-| YC1000 | "50xxxxxxxxxx" 
-| DS2    | "70xxxxxxxxxx" 
-| QS1    | "80xxxxxxxxxx"
-<br>
-### GetPowerOfDay 
+
 <br>
 
-Request: "APS110039000321600xxxxxxENDdddddddd\n" where 21600xxxxxx=ECUId dddddddd=Date (BCD e.c. 20220209)
+Inverter Id's
+<br>
+
+| Type | Id-Prefix |
+|------|-----------|
+| YC600  | "40xxxxxxxxxx" |
+| YC1000 | "50xxxxxxxxxx" |
+| DS3    | "70xxxxxxxxxx" |
+| QS1    | "80xxxxxxxxxx" |
+<br>
+
+### GetPowerOfDay 
+<br>
+Request: "APS110039000321600xxxxxxxENDdddddddd\n" where 21600xxxxxxx=ECUId dddddddd=Date (BCD e.c. 20220209)
 <br>
 
 | Response             | Start Index | Length | Coding | Name           | Remark                            |
