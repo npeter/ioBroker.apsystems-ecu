@@ -165,15 +165,14 @@ Request: "APS1100160001END\n"
 |          | 58+vlen       | tzlen  | ASCII  | TimeZone             | (always?) "Utc/GMT-8"        |
 |          | 58+vlen+tzlen | 6      | HEX    | EthernetMAC          |                         |
 |          | 64+vlen+tzlen | 6      | HEX    | WirelessMAC          |                         |
-| Fooder   |               |        |        |                      |                         |
+| Footer   |               |        |        |                      |                         |
 |          | 70+vlen+tzlen | 3      | ASCII  | SignaturStop         | always "END"            |
 |          | 73+vlen+tzlen | 1      | ASCII  |                      | always "\\n"            |
 <br>
 
 ### GetRealTimeData
 <br>
-
-Request: "APS110028000221600xxxxxxEND\n" where 21600xxxxxx=ECUId
+Request: "APS110028000221600xxxxxxxEND\n" where 21600xxxxxxx=ECUId
 <br>
 
 | Response          | Start Index                   | Length | Coding | Name           | Remark                            |
@@ -216,21 +215,26 @@ Request: "APS110028000221600xxxxxxEND\n" where 21600xxxxxx=ECUId
 |                   | 45                            | 2      | HEX    | Power3         |                                   |
 |                   | 47                            | 2      | HEX    | Power4         |                                   |
 |                   | …                             |        |        |                |                                   |
-| Fooder            |                               |        |        |                |                                   |
+| Footer            |                               |        |        |                |                                   |
 |                   | len-4                         | 3      | ASCII  | SignatureStop  | always "END"                      |
 |                   | len-1                         | 1      | ASCII  |                | always "\\n"                      |
-<br>
-Inverter Id's
-| Type | Id-Prefix
-| YC600  | "40xxxxxxxxxx"
-| YC1000 | "50xxxxxxxxxx" 
-| DS2    | "70xxxxxxxxxx" 
-| QS1    | "80xxxxxxxxxx"
-<br>
-### GetPowerOfDay 
+
 <br>
 
-Request: "APS110039000321600xxxxxxENDdddddddd\n" where 21600xxxxxx=ECUId dddddddd=Date (BCD e.c. 20220209)
+Inverter Id's
+<br>
+
+| Type | Id-Prefix |
+|------|-----------|
+| YC600  | "40xxxxxxxxxx" |
+| YC1000 | "50xxxxxxxxxx" |
+| DS3    | "70xxxxxxxxxx" |
+| QS1    | "80xxxxxxxxxx" |
+<br>
+
+### GetPowerOfDay 
+<br>
+Request: "APS110039000321600xxxxxxxENDdddddddd\n" where 21600xxxxxxx=ECUId dddddddd=Date (BCD e.c. 20220209)
 <br>
 
 | Response             | Start Index | Length | Coding | Name           | Remark                            |
@@ -245,7 +249,7 @@ Request: "APS110039000321600xxxxxxENDdddddddd\n" where 21600xxxxxx=ECUId ddddddd
 |                      | 15          | 2      | BCD    | Time           |                                   |
 |                      | 17          | 2      | HEX    | PowerOfDay     |                                   |
 |                      | …           |        |        |                |                                   |
-| Fooder               |             |        |        |                |                                   |
+| Footer               |             |        |        |                |                                   |
 |                      | len-4       | 3      | ASCII  | SignatureStop  | always "END"                      |
 |                      | len-1       | 1      | ASCII  |                | always "\\n"                      |
 <br>
@@ -270,7 +274,7 @@ Request: "APS110039000421600xxxxxxENDpp\n" where 21600xxxxxx=ECUId, pp=Period ("
 |                      | 17          | 4      | BCD    | Date           | yyymmdd                           |
 |                      | 21          | 2      | HEX    | PowerOfDay     |                                   |
 |                      | …           |        |        |                |                                   |
-| Fooder               |             |        |        |                |                                   |
+| Footer               |             |        |        |                |                                   |
 |                      | len-4       | 3      | ASCII  | SignatureStop  | always "END"                      |
 |                      | len-1       | 1      | ASCII  |                | always "\\n"                      |
 <br>
@@ -293,7 +297,7 @@ Request: "APS110028000421600xxxxxxEND\n" where 21600xxxxxx=ECUId
 |                   | 17          | 6      | BCD    | InverterId     | yyymmdd                    |
 |                   | 21          | 1      | HEX    | SignalLevel    |                            |
 |                   | …           |        |        |                |                            |
-| Fooder            |             |        |        |                |                            |
+| Footer            |             |        |        |                |                            |
 |                   | len-4       | 3      | ASCII  | SignatureStop  | always "END"               |
 |                   | len-1       | 1      | ASCII  |                | always "\\n"               |
 
