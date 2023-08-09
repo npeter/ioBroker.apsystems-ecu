@@ -230,7 +230,7 @@ Inverter Id's
 ### GetPowerOfDay 
 <br>
 
-Request: "APS110039000321600xxxxxxENDdddddddd\n" where 21600xxxxxx=ECUId dddddddd=Date (BCD e.c. 20220209)
+Request: "APS110039000321600xxxxxxENDddddddddEND\n" where 21600xxxxxx=ECUId dddddddd=Date (BCD e.c. 20220209)
 <br>
 
 | Response             | Start Index | Length | Coding | Name           | Remark                            |
@@ -253,7 +253,7 @@ Request: "APS110039000321600xxxxxxENDdddddddd\n" where 21600xxxxxx=ECUId ddddddd
 ### GetEnergyOfWeekMonthYear (suport depents on ECU type and firmware version)
 <br> 
 
-Request: "APS110039000421600xxxxxxENDpp\n" where 21600xxxxxx=ECUId, pp=Period ("00"/"01"/"02" - week/month/year)
+Request: "APS110039000421600xxxxxxENDppEND\n" where 21600xxxxxx=ECUId, pp=Period ("00"/"01"/"02" - week/month/year)
 <br>
 
 | Response             | Start Index | Length | Coding | Name           |                                   |
@@ -300,6 +300,8 @@ Request: "APS110028000421600xxxxxxEND\n" where 21600xxxxxx=ECUId
 
 ## Changelog
 
+TODO SignalLevel in dBm
+
 ### 0.2.9 (npeter) (in work 22-04-14)
 * Service response status check about  "no data" added/improved 
 * Response length check improved
@@ -308,6 +310,8 @@ Request: "APS110028000421600xxxxxxEND\n" where 21600xxxxxx=ECUId
   * checked:  GetEnergyOfWeekMonthYear states created and services executed 
   * not checked (default): GetEnergyOfWeekMonthYear services are skiped and states not created
 * Config parameter *pollAlways* removed
+* README.md Request for GetPowerOfDay and GetEnergyOfWeekMonthYear corrected
+* \r replaced by \n in "const req = REQ_POWER_OF_DAY + this.ecuId + REQ_END + day + REQ_END + '\n';"
 
 ### 0.2.8 (npeter) (in work 22-03-27-B)
 * Testversion for [#8](https://github.com/npeter/ioBroker.apsystems-ecu/issues/8)
