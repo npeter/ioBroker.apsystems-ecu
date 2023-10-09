@@ -306,6 +306,7 @@ Request: "APS110028000421600xxxxxxxEND\n" where 21600xxxxxxx=ECUId
 2. issue#16: Support of GetEnergyOfWeekMonthYear response with CommandGroup 12
 3. issue#12: New state rssi in inverter object. rssi is inverter signal_level in dBm it will replace signal_level in future versions
 4. issue#13, issue15 README.md some typos and errorscorrected 
+5. Admin/index_n.html comment for extended_service improved
 
 ### 0.2.9 (npeter) (in work 22-04-14)
 * Service response status check about  "no data" added/improved 
