@@ -258,21 +258,22 @@ Request: "APS110039000421600xxxxxxENDppEND\n" where 21600xxxxxx=ECUId, pp=Period
 
 | Response             | Start Index | Length | Coding | Name           |                                   |
 | -------------------- | ----------- | ------ | ------ | -------------- | --------------------------------- |
-| Header               |             |        |        |                |                                   |
-|                      | 0           | 3      | ASCII  | SignatureStart | always "APS"                      |
-|                      | 3           | 2      | ASCII  | CommandGroup   | always"11"                        |
-|                      | 5           | 4      | ASCII  | ResponseLenght   |                                   |
-|                      | 9           | 4      | ASCII  | CommandCode    | "0040" - GetEnergyOfWeekMonthYear |
-|                      | 13          | 2      | ASCII  | MatchStatus    | "00"/"01" - ok/no data                          |
+| Header               |             |        |        |                |                                   
+|                      | 0           | 3      | ASCII  | SignatureStart | always "APS"                      
+|                      | 3           | 2      | ASCII  | CommandGroup   | "11" or "12"                      
+|                      | 5           | 4      | ASCII  | ResponseLenght   |                                   
+|                      | 9           | 4      | ASCII  | CommandCode    | "0004" - GetEnergyOfWeekMonthYear 
+|                      | 13          | 2      | ASCII  | MatchStatus    | "00"/"01" - ok/no data                         
 | Common Data          |             |        |        |                |
-|                      | 15          | 2      | ASCII  | WeekMonthYear  | 00=week, 01=month, 02=year        |
+|                      | 15          | 2      | ASCII  | WeekMonthYear  | 00=week, 01=month, 02=year        
 | for each power value |             |        |        |                |
-|                      | 17          | 4      | BCD    | Date           | yyymmdd                           |
-|                      | 21          | 2      | HEX    | PowerOfDay     |                                   |
-|                      | …           |        |        |                |                                   |
-| Fooder               |             |        |        |                |                                   |
-|                      | len-4       | 3      | ASCII  | SignatureStop  | always "END"                      |
-|                      | len-1       | 1      | ASCII  |                | always "\\n"                      |
+|                      | 17          | 4      | BCD    | Date           | yyymmdd                           
+|                      | 21          | 2      | HEX    | PowerOfDay     | if  CommandGroup 11
+|                      | 21          | 4      | HEX    | PowerOfDay     | if  CommandGroup 12
+|                      | …           |        |        |                |                                   
+| Fooder               |             |        |        |                |                                   
+|                      | len-4       | 3      | ASCII  | SignatureStop  | always "END"                      
+|                      | len-1       | 1      | ASCII  |                | always "\\n"                      
 <br>
 
 ### GetInverterSignalLevel
@@ -301,6 +302,11 @@ Request: "APS110028000421600xxxxxxEND\n" where 21600xxxxxx=ECUId
 ## Changelog
 
 TODO SignalLevel in dBm
+### 0.2.10 (npeter) (in work 23-10-09)
+1. README.md GetEnergyOfWeekMonthYear CommandCode corrected (0040->0004)
+2. Support of GetEnergyOfWeekMonthYear response with CommandGroup 12
+3. 
+
 
 ### 0.2.9 (npeter) (in work 22-04-14)
 * Service response status check about  "no data" added/improved 
