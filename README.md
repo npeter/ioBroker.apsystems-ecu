@@ -165,7 +165,7 @@ Request: "APS1100160001END\n"
 |          | 58+vlen       | tzlen  | ASCII  | TimeZone             | (always?) "Utc/GMT-8"        |
 |          | 58+vlen+tzlen | 6      | HEX    | EthernetMAC          |                         |
 |          | 64+vlen+tzlen | 6      | HEX    | WirelessMAC          |                         |
-| Fooder   |               |        |        |                      |                         |
+| Footer   |               |        |        |                      |                         |
 |          | 70+vlen+tzlen | 3      | ASCII  | SignaturStop         | always "END"            |
 |          | 73+vlen+tzlen | 1      | ASCII  |                      | always "\\n"            |
 <br>
@@ -173,7 +173,7 @@ Request: "APS1100160001END\n"
 ### GetRealTimeData
 <br>
 
-Request: "APS110028000221600xxxxxxEND\n" where 21600xxxxxx=ECUId
+Request: "APS110028000221600xxxxxxxEND\n" where 21600xxxxxx=ECUId
 <br>
 
 | Response          | Start Index                   | Length | Coding | Name           | Remark                            |
@@ -216,21 +216,21 @@ Request: "APS110028000221600xxxxxxEND\n" where 21600xxxxxx=ECUId
 |                   | 45                            | 2      | HEX    | Power3         |                                   |
 |                   | 47                            | 2      | HEX    | Power4         |                                   |
 |                   | …                             |        |        |                |                                   |
-| Fooder            |                               |        |        |                |                                   |
+| Footer            |                               |        |        |                |                                   |
 |                   | len-4                         | 3      | ASCII  | SignatureStop  | always "END"                      |
 |                   | len-1                         | 1      | ASCII  |                | always "\\n"                      |
 <br>
 Inverter Id's
 | Type | Id-Prefix
-| YC600  | "40xxxxxxxxxx"
-| YC1000 | "50xxxxxxxxxx" 
-| DS2    | "70xxxxxxxxxx" 
-| QS1    | "80xxxxxxxxxx"
+| YC600  | "40xxxxxxxxxxx"
+| YC1000 | "50xxxxxxxxxxx" 
+| DS2    | "70xxxxxxxxxxx" 
+| QS1    | "80xxxxxxxxxxx"
 <br>
 ### GetPowerOfDay 
 <br>
 
-Request: "APS110039000321600xxxxxxENDddddddddEND\n" where 21600xxxxxx=ECUId dddddddd=Date (BCD e.c. 20220209)
+Request: "APS110039000321600xxxxxxxENDddddddddEND\n" where 21600xxxxxxx=ECUId dddddddd=Date (BCD e.c. 20220209)
 <br>
 
 | Response             | Start Index | Length | Coding | Name           | Remark                            |
@@ -245,7 +245,7 @@ Request: "APS110039000321600xxxxxxENDddddddddEND\n" where 21600xxxxxx=ECUId dddd
 |                      | 15          | 2      | BCD    | Time           |                                   |
 |                      | 17          | 2      | HEX    | PowerOfDay     |                                   |
 |                      | …           |        |        |                |                                   |
-| Fooder               |             |        |        |                |                                   |
+| Footer               |             |        |        |                |                                   |
 |                      | len-4       | 3      | ASCII  | SignatureStop  | always "END"                      |
 |                      | len-1       | 1      | ASCII  |                | always "\\n"                      |
 <br>
@@ -253,7 +253,7 @@ Request: "APS110039000321600xxxxxxENDddddddddEND\n" where 21600xxxxxx=ECUId dddd
 ### GetEnergyOfWeekMonthYear (suport depents on ECU type and firmware version)
 <br> 
 
-Request: "APS110039000421600xxxxxxENDppEND\n" where 21600xxxxxx=ECUId, pp=Period ("00"/"01"/"02" - week/month/year)
+Request: "APS110039000421600xxxxxxxENDppEND\n" where 21600xxxxxxx=ECUId, pp=Period ("00"/"01"/"02" - week/month/year)
 <br>
 
 | Response             | Start Index | Length | Coding | Name           |                                   |
@@ -271,7 +271,7 @@ Request: "APS110039000421600xxxxxxENDppEND\n" where 21600xxxxxx=ECUId, pp=Period
 |                      | 21          | 2      | HEX    | PowerOfDay     | if  CommandGroup 11
 |                      | 21          | 4      | HEX    | PowerOfDay     | if  CommandGroup 12
 |                      | …           |        |        |                |                                   
-| Fooder               |             |        |        |                |                                   
+| Footer               |             |        |        |                |                                   
 |                      | len-4       | 3      | ASCII  | SignatureStop  | always "END"                      
 |                      | len-1       | 1      | ASCII  |                | always "\\n"                      
 <br>
@@ -279,7 +279,7 @@ Request: "APS110039000421600xxxxxxENDppEND\n" where 21600xxxxxx=ECUId, pp=Period
 ### GetInverterSignalLevel
 <br>
 
-Request: "APS110028000421600xxxxxxEND\n" where 21600xxxxxx=ECUId
+Request: "APS110028000421600xxxxxxxEND\n" where 21600xxxxxxx=ECUId
 <br>
 
 | Response          | Start Index | Length | Coding | Name           |                            |
@@ -294,19 +294,18 @@ Request: "APS110028000421600xxxxxxEND\n" where 21600xxxxxx=ECUId
 |                   | 17          | 6      | BCD    | InverterId     | yyymmdd                    |
 |                   | 21          | 1      | HEX    | SignalLevel    |                            |
 |                   | …           |        |        |                |                            |
-| Fooder            |             |        |        |                |                            |
+| Footer            |             |        |        |                |                            |
 |                   | len-4       | 3      | ASCII  | SignatureStop  | always "END"               |
 |                   | len-1       | 1      | ASCII  |                | always "\\n"               |
 
 
 ## Changelog
 
-TODO SignalLevel in dBm
 ### 0.2.10 (npeter) (in work 23-10-09)
 1. README.md GetEnergyOfWeekMonthYear CommandCode corrected (0040->0004)
-2. Support of GetEnergyOfWeekMonthYear response with CommandGroup 12
-3. 
-
+2. issue#16: Support of GetEnergyOfWeekMonthYear response with CommandGroup 12
+3. issue#12: New state rssi in inverter object. rssi is inverter signal_level in dBm it will replace signal_level in future versions
+4. issue#13, issue15 README.md some typos and errorscorrected 
 
 ### 0.2.9 (npeter) (in work 22-04-14)
 * Service response status check about  "no data" added/improved 
