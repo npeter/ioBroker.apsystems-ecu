@@ -38,8 +38,7 @@ The adapter connects cyclic to the Ecu via TCP port 8899 (default) (port and IP 
 Remark: 
  - The setup of the Ecu, the inverters and the connection to the EMA cloud is not part of this project.
  - The adapter was developed and tested with a small system with one QS1 inverter only. 
- - Further tests with YC600, DS3, ECU-B are done with support of some users.
- - It's also prepared for YC1000 inverters and system with several types but not jet tested.
+ - Tests with YC600, YC1000, DS3, ECU-B are done with support of some users.
 <br>
 <br>
 
@@ -51,17 +50,17 @@ Remark:
 - ECU-B - OK (may depent on firmware version)
 
 ### Inverters:
-- QS1 - OK - tested
-- YC600 - OK - tested
-- YC1000 - not tested
-- DS3 - OK - tested
+- QS1 - OK 
+- YC600 - OK 
+- YC1000 - OK
+- DS3 - OK 
 
 ## Interface and protocol
 
 Only the following interface and protocol is supported
 - WLAN
 - TCP port 8899
-- Command group 11
+- Command group 11 and 12 (only GetEnergyOfWeekMonthYear) 
 <br>
 <br>
 
@@ -71,6 +70,7 @@ Only the following interface and protocol is supported
   * *GetSystemInfo*, *GetRealTimeData*, *GetInverterData*SERVICE_COUNT_ID, *GetPowerOfDay*
   * *GetEnergyOfWeekMonthYear* - no more supported by ECU with firmware version > 2.x
   * Decoding and storing of all data offered by these services
+  * New! Support of command group 12 GetEnergyOfWeekMonthYear service
 <br>
 <br>
 
@@ -301,12 +301,12 @@ Request: "APS110028000421600xxxxxxxEND\n" where 21600xxxxxxx=ECUId
 
 ## Changelog
 
-### 0.2.10 (npeter) (in work 23-10-09)
-1. README.md GetEnergyOfWeekMonthYear CommandCode corrected (0040->0004)
+### 0.2.10 (npeter) (23-10-10)
+1. README.md GetEnergyOfWeekMonthYear CommandCode corrected (0040->0004); Some improvements
 2. issue#16: Support of GetEnergyOfWeekMonthYear response with CommandGroup 12
 3. issue#12: New state rssi in inverter object. rssi is inverter signal_level in dBm it will replace signal_level in future versions
-4. issue#13, issue15 README.md some typos and errorscorrected 
-5. Admin/index_n.html comment for extended_service improved
+4. issue#13, issue15 README.md some typos and errors corrected 
+5. Admin/index_n.html description for extended_service improved
 
 ### 0.2.9 (npeter) (in work 22-04-14)
 * Service response status check about  "no data" added/improved 

@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "apsystems-ecu",
-        "version": "0.2.9",
+        "version": "0.2.10",
         "connectionType": "local",
         "dataSource": "poll",
         "news": {
@@ -73,7 +73,8 @@
         "ecu_ip": "192.168.178.42",
         "ecu_port": "8899",
         "ecu_poll_interval": "60",
-        "hide_ecu_id": true
+        "hide_ecu_id": true,
+        "extended_service": false
     },
     "objects": [],
     "instanceObjects": [
